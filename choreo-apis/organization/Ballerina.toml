@@ -1,0 +1,10 @@
+[package]
+org = "ballerinax"
+name = "health.fhir.lkcore.organization"
+version = "1.0.0"
+distribution = "2201.7.0"
+authors = ["Ballerina", "Healthcare", "FHIR"]
+keywords = ["Organization", "r4", "health.fhir.lkcore"]
+repository = "https://github.com/ballerina-platform/module-ballerinax-health.fhir.templates"
+template = true
+

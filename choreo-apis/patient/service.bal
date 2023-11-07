@@ -32,7 +32,6 @@ public type Patient lkcore010:LKCorePatient;
 configurable string base = ?;
 configurable string apiKey = ?;
 configurable string certFile = ?;
-configurable string choreoProxyKey = ?;
 
 final http:Client patientApiClient = check new (base,
     secureSocket = {
@@ -87,11 +86,10 @@ service / on new fhirr4:Listener(9090, apiConfig) {
     isolated resource function get fhir/r4/Patient(r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError|error {
         //TODO: do client initialization at the init time/globally once the DNS issue is fixed.
         //TODO: need to add oauth2 secured client when the token ep cert issue is fixed.
-        string version = "v1.0";
+        string version = "1.0.0";
 
         //TODO: call the MoH proxy API directly once the DNS issue is resolved.
-        http:Response|http:ClientError response = patientApiClient->/uzzh/fhir/[version]/Patient({
-            "API-Key": choreoProxyKey,
+        http:Response|http:ClientError response = patientApiClient->/mohfhirproxyapi/[version]/Patient({
             apikey: apiKey
         });
         if (response is http:Response) {

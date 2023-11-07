@@ -202,6 +202,9 @@ dependencies = [
 	{org = "ballerina", name = "lang.value"},
 	{org = "ballerina", name = "observe"}
 ]
+modules = [
+	{org = "ballerina", packageName = "log", moduleName = "log"}
+]
 
 [[package]]
 org = "ballerina"
@@ -317,8 +320,10 @@ name = "health.fhir.lkcore.patient"
 version = "1.0.0"
 dependencies = [
 	{org = "ballerina", name = "http"},
+	{org = "ballerina", name = "log"},
 	{org = "ballerinax", name = "health.fhir.r4"},
 	{org = "ballerinax", name = "health.fhir.r4.lkcore010"},
+	{org = "ballerinax", name = "health.fhir.r4.parser"},
 	{org = "ballerinax", name = "health.fhirr4"}
 ]
 modules = [
@@ -328,7 +333,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "health.fhir.r4"
-version = "4.1.4"
+version = "4.1.5"
 dependencies = [
 	{org = "ballerina", name = "constraint"},
 	{org = "ballerina", name = "http"},
@@ -379,13 +384,17 @@ dependencies = [
 	{org = "ballerinax", name = "health.fhir.r4"},
 	{org = "ballerinax", name = "health.fhir.r4.international401"}
 ]
+modules = [
+	{org = "ballerinax", packageName = "health.fhir.r4.parser", moduleName = "health.fhir.r4.parser"}
+]
 
 [[package]]
 org = "ballerinax"
 name = "health.fhirr4"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
 	{org = "ballerina", name = "http"},
+	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "jwt"},
 	{org = "ballerina", name = "log"},

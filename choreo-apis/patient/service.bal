@@ -19,61 +19,130 @@ import ballerina/http;
 import ballerinax/health.fhir.r4;
 import ballerinax/health.fhirr4;
 import ballerinax/health.fhir.r4.lkcore010;
+import ballerinax/health.fhir.r4.parser as fhirParser;
+import ballerina/log;
+
+// import ballerina/os;
 
 # Generic type to wrap all implemented profiles.
 # Add required profile types here.
 # public type Patient r4:Patient|<other_Patient_Profile>;
 public type Patient lkcore010:LKCorePatient;
 
-# initialize source system endpoint here
+configurable string base = ?;
+configurable string apiKey = ?;
+configurable string certFile = ?;
+configurable string choreoProxyKey = ?;
+
+final http:Client patientApiClient = check new (base,
+    secureSocket = {
+        cert: certFile
+    }
+);
+
+//TODO: need to add oauth2 secured client when the token ep cert issue is fixed.
 
 # A service representing a network-accessible API
 # bound to port `9090`.
 service / on new fhirr4:Listener(9090, apiConfig) {
 
-
     // Read the current state of single resource based on its id.
-    isolated resource function get fhir/r4/Patient/[string id] (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} Patient|r4:FHIRError {
-        return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
+    isolated resource function get fhir/r4/Patient/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} Patient|r4:FHIRError {
+        //TODO: do client initialization at the init time/globally once the DNS issue is fixed.
+        //TODO: need to add oauth2 secured client when the token ep cert issue is fixed.
+        string version = "1.0.0";
+
+        //TODO: call the MoH proxy API directly once the DNS issue is resolved.
+        http:Response|http:ClientError response = patientApiClient->/mohfhirproxyapi/[version]/Patient/[id]({
+            apikey: apiKey
+        });
+        if (response is http:Response) {
+            json|http:ClientError jsonPayload = response.getJsonPayload();
+            if jsonPayload is json {
+                do {
+                    lkcore010:LKCorePatient patient = check fhirParser:parse(jsonPayload, targetFHIRModelType = lkcore010:LKCorePatient).ensureType();
+                    return patient;
+                } on fail var e {
+                    log:printError("Error occurred while parsing the response: ", e);
+                    return r4:createFHIRError("Error occurred while parsing the response", r4:ERROR, r4:PROCESSING, cause = e, httpStatusCode = http:STATUS_UNPROCESSABLE_ENTITY);
+                }
+            } else {
+                //handle error
+                log:printError("Error occurred while accessing response payload: ", jsonPayload);
+                return r4:createFHIRError("Invalid payload format", r4:ERROR, r4:PROCESSING, httpStatusCode = http:STATUS_UNPROCESSABLE_ENTITY);
+            }
+        } else {
+            //handle error
+            log:printError("Error occurred while calling the API: ", response);
+            return r4:createFHIRError("Error occurred while calling the API", r4:ERROR, r4:PROCESSING, httpStatusCode = http:STATUS_INTERNAL_SERVER_ERROR);
+        }
     }
 
     // Read the state of a specific version of a resource based on its id.
-    isolated resource function get fhir/r4/Patient/[string id]/_history/[string vid] (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} Patient|r4:FHIRError {
+    isolated resource function get fhir/r4/Patient/[string id]/_history/[string vid](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} Patient|r4:FHIRError|error {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Search for resources based on a set of criteria.
-    isolated resource function get fhir/r4/Patient (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
-        return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
+    isolated resource function get fhir/r4/Patient(r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError|error {
+        //TODO: do client initialization at the init time/globally once the DNS issue is fixed.
+        //TODO: need to add oauth2 secured client when the token ep cert issue is fixed.
+        string version = "v1.0";
+
+        //TODO: call the MoH proxy API directly once the DNS issue is resolved.
+        http:Response|http:ClientError response = patientApiClient->/uzzh/fhir/[version]/Patient({
+            "API-Key": choreoProxyKey,
+            apikey: apiKey
+        });
+        if (response is http:Response) {
+            json|http:ClientError jsonPayload = response.getJsonPayload();
+            if jsonPayload is json {
+                do {
+                    return check fhirParser:parse(jsonPayload).ensureType();
+                } on fail var e {
+                    log:printError("Error occurred while parsing the response: ", e);
+                    return r4:createFHIRError("Error occurred while parsing the response", r4:ERROR, r4:PROCESSING, cause = e, httpStatusCode = http:STATUS_UNPROCESSABLE_ENTITY);
+                }
+            } else {
+                //handle error
+                log:printError("Error occurred while accessing response payload: ", jsonPayload);
+                return r4:createFHIRError("Invalid payload format", r4:ERROR, r4:PROCESSING, httpStatusCode = http:STATUS_UNPROCESSABLE_ENTITY);
+            }
+        } else {
+            //handle error
+            log:printError("Error occurred while calling the API: ", response);
+            return r4:createFHIRError("Error occurred while calling the API", r4:ERROR, r4:PROCESSING, httpStatusCode = http:STATUS_INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     // Create a new resource.
-    isolated resource function post fhir/r4/Patient (r4:FHIRContext fhirContext, Patient patient) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
+    isolated resource function post fhir/r4/Patient(r4:FHIRContext fhirContext, Patient patient) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Update the current state of a resource completely.
-    isolated resource function put fhir/r4/Patient/[string id] (r4:FHIRContext fhirContext, Patient patient) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
+    isolated resource function put fhir/r4/Patient/[string id](r4:FHIRContext fhirContext, Patient patient) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Update the current state of a resource partially.
-    isolated resource function patch fhir/r4/Patient/[string id] (r4:FHIRContext fhirContext, json patch) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
+    isolated resource function patch fhir/r4/Patient/[string id](r4:FHIRContext fhirContext, json patch) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Delete a resource.
-    isolated resource function delete fhir/r4/Patient/[string id] (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
+    isolated resource function delete fhir/r4/Patient/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Retrieve the update history for a particular resource.
-    isolated resource function delete fhir/r4/Patient/[string id]/_history (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
+    isolated resource function delete fhir/r4/Patient/[string id]/_history(r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Retrieve the update history for all resources.
-    isolated resource function delete fhir/r4/Patient/_history (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
+    isolated resource function delete fhir/r4/Patient/_history(r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 }

@@ -16,7 +16,7 @@ tags:
 - name: Organization
 - name: 4.0.1
 paths:
-  /:
+  /fhir/r4/Organization:
     get:
       tags:
       - GET
@@ -146,7 +146,7 @@ paths:
           description: create Organization operation successful
       security:
       - default: []
-  /{id}:
+  /fhir/r4/Organization/{id}:
     get:
       tags:
       - GET

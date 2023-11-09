@@ -26,6 +26,7 @@ import ballerinax/health.fhir.r4.parser as fhirParser;
 # Add required profile types here.
 # public type AllergyIntolerance r4:AllergyIntolerance|<other_AllergyIntolerance_Profile>;
 public type AllergyIntolerance lkcore010:LKCoreAllergyIntolerance;
+public type AllergyIntoleranceResponse lkcore010:LKCoreAllergyIntolerance|r4:Bundle|r4:OperationOutcome;
 
 configurable string base = ?;
 configurable string apiKey = ?;
@@ -45,7 +46,7 @@ service / on new fhirr4:Listener(9090, apiConfig) {
 
 
     // Read the current state of single resource based on its id.
-    isolated resource function get fhir/r4/AllergyIntolerance/[string id] (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntolerance|r4:OperationOutcome|r4:FHIRError {
+    isolated resource function get fhir/r4/AllergyIntolerance/[string id] (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntoleranceResponse|r4:FHIRError {
         string version = "1.0.0";
 
         //TODO: call the MoH proxy API directly once the DNS issue is resolved.
@@ -78,12 +79,12 @@ service / on new fhirr4:Listener(9090, apiConfig) {
     }
 
     // Read the state of a specific version of a resource based on its id.
-    isolated resource function get fhir/r4/AllergyIntolerance/[string id]/_history/[string vid] (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntolerance|r4:FHIRError {
+    isolated resource function get fhir/r4/AllergyIntolerance/[string id]/_history/[string vid] (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntoleranceResponse|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Search for resources based on a set of criteria.
-    isolated resource function get fhir/r4/AllergyIntolerance (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:OperationOutcome|r4:FHIRError {
+    isolated resource function get fhir/r4/AllergyIntolerance (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntoleranceResponse|r4:FHIRError {
         string version = "1.0.0";
         r4:FHIRRequest? fhirRequest = fhirContext.getFHIRRequest();
         map<string> queryParams = {};

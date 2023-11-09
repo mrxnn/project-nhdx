@@ -24,6 +24,7 @@ import ballerinax/health.fhir.r4.parser as fhirParser;
 # Add required profile types here.
 # public type Practitioner r4:Practitioner|<other_Practitioner_Profile>;
 public type Practitioner lkcore010:LKCorePractitioner;
+public type PractitionerResponse lkcore010:LKCorePractitioner|r4:Bundle|r4:OperationOutcome;
 
 configurable string base = ?;
 configurable string apiKey = ?;
@@ -42,7 +43,7 @@ final http:Client practitionerApiClient = check new (base,
 service / on new fhirr4:Listener(9090, apiConfig) {
 
     // Read the current state of single resource based on its id.
-    isolated resource function get fhir/r4/Practitioner/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} Practitioner|r4:OperationOutcome|r4:FHIRError {
+    isolated resource function get fhir/r4/Practitioner/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} PractitionerResponse|r4:FHIRError {
         string version = "1.0.0";
 
         //TODO: call the MoH proxy API directly once the DNS issue is resolved.
@@ -75,12 +76,12 @@ service / on new fhirr4:Listener(9090, apiConfig) {
     }
 
     // Read the state of a specific version of a resource based on its id.
-    isolated resource function get fhir/r4/Practitioner/[string id]/_history/[string vid](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} Practitioner|r4:FHIRError {
+    isolated resource function get fhir/r4/Practitioner/[string id]/_history/[string vid](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} PractitionerResponse|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Search for resources based on a set of criteria.
-    isolated resource function get fhir/r4/Practitioner(r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:OperationOutcome|r4:FHIRError {
+    isolated resource function get fhir/r4/Practitioner(r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} PractitionerResponse|r4:FHIRError {
         string version = "1.0.0";
         r4:FHIRRequest? fhirRequest = fhirContext.getFHIRRequest();
         map<string> queryParams = {};

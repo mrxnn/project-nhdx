@@ -19,11 +19,23 @@ import ballerina/http;
 import ballerinax/health.fhir.r4;
 import ballerinax/health.fhirr4;
 import ballerinax/health.fhir.r4.lkcore010;
+import ballerina/log;
+import ballerinax/health.fhir.r4.parser as fhirParser;
 
 # Generic type to wrap all implemented profiles.
 # Add required profile types here.
 # public type AllergyIntolerance r4:AllergyIntolerance|<other_AllergyIntolerance_Profile>;
 public type AllergyIntolerance lkcore010:LKCoreAllergyIntolerance;
+
+configurable string base = ?;
+configurable string apiKey = ?;
+configurable string certFile = ?;
+
+final http:Client allergyIntoleranceApiClient = check new (base,
+    secureSocket = {
+        cert: certFile
+    }
+);
 
 # initialize source system endpoint here
 
@@ -33,8 +45,36 @@ service / on new fhirr4:Listener(9090, apiConfig) {
 
 
     // Read the current state of single resource based on its id.
-    isolated resource function get fhir/r4/AllergyIntolerance/[string id] (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntolerance|r4:FHIRError {
-        return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
+    isolated resource function get fhir/r4/AllergyIntolerance/[string id] (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntolerance|r4:OperationOutcome|r4:FHIRError {
+        string version = "1.0.0";
+
+        //TODO: call the MoH proxy API directly once the DNS issue is resolved.
+        http:Response|http:ClientError response = allergyIntoleranceApiClient->/mohfhirproxyapi/[version]/AllergyIntolerance/[id]({
+            apikey: apiKey
+        });
+        if (response is http:Response) {
+            json|http:ClientError jsonPayload = response.getJsonPayload();
+            if jsonPayload is json {
+                do {
+                    if jsonPayload.resourceType == "OperationOutcome" {
+                        return check fhirParser:parse(jsonPayload).ensureType();
+                    }
+                    anydata location = check fhirParser:parse(jsonPayload);
+                    return check location.cloneWithType(lkcore010:LKCoreAllergyIntolerance);
+                } on fail var e {
+                    log:printError("Error occurred while parsing the response: ", e);
+                    return r4:createFHIRError("Error occurred while parsing the response", r4:ERROR, r4:PROCESSING, cause = e, httpStatusCode = http:STATUS_UNPROCESSABLE_ENTITY);
+                }
+            } else {
+                //handle error
+                log:printError("Error occurred while accessing response payload: ", jsonPayload);
+                return r4:createFHIRError("Invalid payload format", r4:ERROR, r4:PROCESSING, httpStatusCode = http:STATUS_UNPROCESSABLE_ENTITY);
+            }
+        } else {
+            //handle error
+            log:printError("Error occurred while calling the API: ", response);
+            return r4:createFHIRError("Error occurred while calling the API", r4:ERROR, r4:PROCESSING, httpStatusCode = http:STATUS_INTERNAL_SERVER_ERROR);
+        }
     }
 
     // Read the state of a specific version of a resource based on its id.
@@ -43,8 +83,53 @@ service / on new fhirr4:Listener(9090, apiConfig) {
     }
 
     // Search for resources based on a set of criteria.
-    isolated resource function get fhir/r4/AllergyIntolerance (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
-        return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
+    isolated resource function get fhir/r4/AllergyIntolerance (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:OperationOutcome|r4:FHIRError {
+        string version = "1.0.0";
+        r4:FHIRRequest? fhirRequest = fhirContext.getFHIRRequest();
+        map<string> queryParams = {};
+        string path = string `/mohfhirproxyapi/${version}/AllergyIntolerance`;
+        if fhirRequest is r4:FHIRRequest {
+            map<r4:RequestSearchParameter[] & readonly> & readonly searchParameters = fhirRequest.getSearchParameters();
+            //iterate search parameters and build the query string
+            if searchParameters.length() > 0 {
+                path = string `${path}?`;
+            }
+            foreach var searchParameter in searchParameters.entries() {
+                string key = searchParameter[0];
+                r4:RequestSearchParameter[] values = searchParameter[1];
+                foreach var value in values {
+                    //TODO:need to remove this with the core level support for disable common search parameters.
+                    if key == "_count" || key == "_offset" {
+                        continue;
+                    }
+                    path = string `${path}&${key}=${value.value}`;
+                    queryParams[key] = value.value;
+                }
+            }
+        }
+
+        http:Response|http:ClientError response = allergyIntoleranceApiClient->get(path, headers = {
+            apikey: apiKey
+        });
+        if (response is http:Response) {
+            json|http:ClientError jsonPayload = response.getJsonPayload();
+            if jsonPayload is json {
+                do {
+                    return check fhirParser:parse(jsonPayload).ensureType();
+                } on fail var e {
+                    log:printError("Error occurred while parsing the response: ", e);
+                    return r4:createFHIRError("Error occurred while parsing the response", r4:ERROR, r4:PROCESSING, cause = e, httpStatusCode = http:STATUS_UNPROCESSABLE_ENTITY);
+                }
+            } else {
+                //handle error
+                log:printError("Error occurred while accessing response payload: ", jsonPayload);
+                return r4:createFHIRError("Invalid payload format", r4:ERROR, r4:PROCESSING, httpStatusCode = http:STATUS_UNPROCESSABLE_ENTITY);
+            }
+        } else {
+            //handle error
+            log:printError("Error occurred while calling the API: ", response);
+            return r4:createFHIRError("Error occurred while calling the API", r4:ERROR, r4:PROCESSING, httpStatusCode = http:STATUS_INTERNAL_SERVER_ERROR);
+        }
     }
 
     // Create a new resource.

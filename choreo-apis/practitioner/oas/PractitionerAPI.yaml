@@ -16,7 +16,7 @@ tags:
 - name: Practitioner
 - name: 4.0.1
 paths:
-  /:
+  /fhir/r4/Practitioner:
     get:
       tags:
       - GET
@@ -227,7 +227,7 @@ paths:
           description: create Practitioner operation successful
       security:
       - default: []
-  /{id}:
+  /fhir/r4/Practitioner/{id}:
     get:
       tags:
       - GET

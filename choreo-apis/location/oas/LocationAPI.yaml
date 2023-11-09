@@ -16,7 +16,7 @@ tags:
 - name: Location
 - name: 4.0.1
 paths:
-  /:
+  /fhir/r4/Location:
     get:
       tags:
       - GET
@@ -165,7 +165,7 @@ paths:
           description: create Location operation successful
       security:
       - default: []
-  /{id}:
+  /fhir/r4/Location/{id}:
     get:
       tags:
       - GET

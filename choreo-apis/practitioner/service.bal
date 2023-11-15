@@ -24,11 +24,11 @@ import ballerinax/health.fhir.r4.parser as fhirParser;
 # Add required profile types here.
 # public type Practitioner r4:Practitioner|<other_Practitioner_Profile>;
 public type Practitioner lkcore010:LKCorePractitioner;
-public type PractitionerResponse lkcore010:LKCorePractitioner|r4:Bundle|r4:OperationOutcome;
 
 configurable string base = ?;
 configurable string apiKey = ?;
 configurable string certFile = ?;
+configurable string basePath = "/mohfhirproxyapi/1.0.0";
 
 final http:Client practitionerApiClient = check new (base,
     secureSocket = {
@@ -43,11 +43,10 @@ final http:Client practitionerApiClient = check new (base,
 service / on new fhirr4:Listener(9090, apiConfig) {
 
     // Read the current state of single resource based on its id.
-    isolated resource function get fhir/r4/Practitioner/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} PractitionerResponse|r4:FHIRError {
-        string version = "1.0.0";
-
+    isolated resource function get fhir/r4/Practitioner/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} Practitioner|r4:OperationOutcome|r4:FHIRError {
         //TODO: call the MoH proxy API directly once the DNS issue is resolved.
-        http:Response|http:ClientError response = practitionerApiClient->/mohfhirproxyapi/[version]/Practitioner/[id]({
+        string path = string `${basePath}/Practitioner/${id}`;
+        http:Response|http:ClientError response = practitionerApiClient->get(path, headers = {
             apikey: apiKey
         });
         if (response is http:Response) {
@@ -76,16 +75,15 @@ service / on new fhirr4:Listener(9090, apiConfig) {
     }
 
     // Read the state of a specific version of a resource based on its id.
-    isolated resource function get fhir/r4/Practitioner/[string id]/_history/[string vid](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} PractitionerResponse|r4:FHIRError {
+    isolated resource function get fhir/r4/Practitioner/[string id]/_history/[string vid](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:OperationOutcome|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Search for resources based on a set of criteria.
-    isolated resource function get fhir/r4/Practitioner(r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} PractitionerResponse|r4:FHIRError {
-        string version = "1.0.0";
+    isolated resource function get fhir/r4/Practitioner(r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:OperationOutcome|r4:FHIRError {
         r4:FHIRRequest? fhirRequest = fhirContext.getFHIRRequest();
         map<string> queryParams = {};
-        string path = string `/mohfhirproxyapi/${version}/Practitioner`;
+        string path = string `${basePath}/Practitioner`;
         if fhirRequest is r4:FHIRRequest {
             map<r4:RequestSearchParameter[] & readonly> & readonly searchParameters = fhirRequest.getSearchParameters();
             //iterate search parameters and build the query string
@@ -131,23 +129,125 @@ service / on new fhirr4:Listener(9090, apiConfig) {
     }
 
     // Create a new resource.
-    isolated resource function post fhir/r4/Practitioner(r4:FHIRContext fhirContext, Practitioner practitioner) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
-        return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
+    isolated resource function post fhir/r4/Practitioner(r4:FHIRContext fhirContext, Practitioner practitioner) returns Practitioner|r4:OperationOutcome|r4:FHIRError|error {
+        string path = string `${basePath}/Practitioner`;
+        do {
+            anydata parsedPayload = check fhirParser:parse(practitioner.toJson());
+            lkcore010:LKCorePractitioner parsedResource = check parsedPayload.cloneWithType(lkcore010:LKCorePractitioner);
+
+            http:Response|http:ClientError response = practitionerApiClient->post(path, message = parsedResource, 
+                headers = {
+                    apikey: apiKey
+                }
+            );
+
+            if response !is http:Response {
+                return handleError("Error occurred while calling the Create API: ", response, http:STATUS_INTERNAL_SERVER_ERROR);
+            }
+
+            json|http:ClientError jsonPayload = response.getJsonPayload();
+            if !isSuccessCode(response.statusCode) {
+                return handleError("Error code returned from the Create API: ",jsonPayload, http:STATUS_INTERNAL_SERVER_ERROR);
+            }
+
+            if jsonPayload !is json {
+                return handleError("Error occurred while accessing response: ",jsonPayload, http:STATUS_UNPROCESSABLE_ENTITY);
+            }
+
+            do {
+                if jsonPayload.resourceType == "OperationOutcome" {
+                    return check fhirParser:parse(jsonPayload).ensureType();
+                }
+                anydata result = check fhirParser:parse(jsonPayload);
+                return check result.cloneWithType(lkcore010:LKCorePractitioner);
+            } on fail var e {
+                return handleError("Error occurred while parsing the response: ",e, http:STATUS_UNPROCESSABLE_ENTITY);
+            }
+            
+        } on fail var e {
+            return handleError("Error occurred while parsing the payload: ", e, http:STATUS_UNPROCESSABLE_ENTITY);
+        }
     }
 
     // Update the current state of a resource completely.
-    isolated resource function put fhir/r4/Practitioner/[string id](r4:FHIRContext fhirContext, Practitioner practitioner) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
-        return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
+    isolated resource function put fhir/r4/Practitioner/[string id](r4:FHIRContext fhirContext, Practitioner practitioner) returns @http:Payload {mediaType: ["application/fhir+json"]} Practitioner|r4:OperationOutcome|r4:FHIRError {
+        string path = string `${basePath}/Practitioner/${id}`;
+
+        do {
+            anydata parsedPayload = check fhirParser:parse(practitioner.toJson());
+            lkcore010:LKCorePractitioner parsedResource = check parsedPayload.cloneWithType(lkcore010:LKCorePractitioner);
+
+            http:Response|http:ClientError response = practitionerApiClient->put(path, message = parsedResource, 
+                headers = {
+                    apikey: apiKey
+                }
+            );
+
+            if response !is http:Response {
+                return handleError("Error occurred while calling the Update API: ", response, http:STATUS_INTERNAL_SERVER_ERROR);
+            }
+
+            json|http:ClientError jsonPayload = response.getJsonPayload();
+            if !isSuccessCode(response.statusCode) {
+                return handleError("Error code returned from the Update API: ",jsonPayload, http:STATUS_INTERNAL_SERVER_ERROR);
+            }
+
+            if jsonPayload !is json {
+                return handleError("Error occurred while accessing response: ",jsonPayload, http:STATUS_UNPROCESSABLE_ENTITY);
+            }
+
+            do {
+                if jsonPayload.resourceType == "OperationOutcome" {
+                    return check fhirParser:parse(jsonPayload).ensureType();
+                }
+                anydata result = check fhirParser:parse(jsonPayload);
+                return check result.cloneWithType(lkcore010:LKCorePractitioner);
+            } on fail var e {
+                return handleError("Error occurred while parsing the response: ",e, http:STATUS_UNPROCESSABLE_ENTITY);
+            }
+            
+        } on fail var e {
+            return handleError("Error occurred while parsing the payload: ", e, http:STATUS_UNPROCESSABLE_ENTITY);
+        }
     }
 
     // Update the current state of a resource partially.
-    isolated resource function patch fhir/r4/Practitioner/[string id](r4:FHIRContext fhirContext, json patch) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
+    isolated resource function patch fhir/r4/Practitioner/[string id](r4:FHIRContext fhirContext, json patch) returns @http:Payload {mediaType: ["application/fhir+json"]} Practitioner|r4:OperationOutcome|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Delete a resource.
-    isolated resource function delete fhir/r4/Practitioner/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
-        return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
+    isolated resource function delete fhir/r4/Practitioner/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:OperationOutcome|r4:FHIRError {
+        string path = string `${basePath}/Practitioner/${id}`;
+
+        http:Response|http:ClientError response = practitionerApiClient->delete(path, 
+            headers = {
+                apikey: apiKey
+            }
+        );
+
+        if response !is http:Response {
+            return handleError("Error occurred while calling the Delete API: ", response, http:STATUS_INTERNAL_SERVER_ERROR);
+        }
+
+        json|http:ClientError jsonPayload = response.getJsonPayload();
+        if !isSuccessCode(response.statusCode) {
+            return handleError("Error code returned from the Delete API: ",jsonPayload, http:STATUS_INTERNAL_SERVER_ERROR);
+        }
+
+        if jsonPayload !is json {
+            return handleError("Error occurred while accessing response: ",jsonPayload, http:STATUS_UNPROCESSABLE_ENTITY);
+        }
+
+        do {
+            if jsonPayload.resourceType == "OperationOutcome" {
+                return check fhirParser:parse(jsonPayload).ensureType();
+            }
+            anydata result = check fhirParser:parse(jsonPayload);
+            return check result.cloneWithType(lkcore010:LKCorePractitioner);
+        } on fail var e {
+            return handleError("Error occurred while parsing the response: ",e, http:STATUS_UNPROCESSABLE_ENTITY);
+        }
     }
 
     // Retrieve the update history for a particular resource.

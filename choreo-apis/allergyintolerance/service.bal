@@ -26,11 +26,11 @@ import ballerinax/health.fhir.r4.parser as fhirParser;
 # Add required profile types here.
 # public type AllergyIntolerance r4:AllergyIntolerance|<other_AllergyIntolerance_Profile>;
 public type AllergyIntolerance lkcore010:LKCoreAllergyIntolerance;
-public type AllergyIntoleranceResponse lkcore010:LKCoreAllergyIntolerance|r4:Bundle|r4:OperationOutcome;
 
 configurable string base = ?;
 configurable string apiKey = ?;
 configurable string certFile = ?;
+configurable string basePath = "/mohfhirproxyapi/1.0.0";
 
 final http:Client allergyIntoleranceApiClient = check new (base,
     secureSocket = {
@@ -44,13 +44,11 @@ final http:Client allergyIntoleranceApiClient = check new (base,
 # bound to port `9090`.
 service / on new fhirr4:Listener(9090, apiConfig) {
 
-
     // Read the current state of single resource based on its id.
-    isolated resource function get fhir/r4/AllergyIntolerance/[string id] (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntoleranceResponse|r4:FHIRError {
-        string version = "1.0.0";
-
+    isolated resource function get fhir/r4/AllergyIntolerance/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntolerance|r4:OperationOutcome|r4:FHIRError {
+        string path = string `${basePath}/Practitioner/${id}`;
         //TODO: call the MoH proxy API directly once the DNS issue is resolved.
-        http:Response|http:ClientError response = allergyIntoleranceApiClient->/mohfhirproxyapi/[version]/AllergyIntolerance/[id]({
+        http:Response|http:ClientError response = allergyIntoleranceApiClient->get(path, headers = {
             apikey: apiKey
         });
         if (response is http:Response) {
@@ -79,16 +77,15 @@ service / on new fhirr4:Listener(9090, apiConfig) {
     }
 
     // Read the state of a specific version of a resource based on its id.
-    isolated resource function get fhir/r4/AllergyIntolerance/[string id]/_history/[string vid] (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntoleranceResponse|r4:FHIRError {
+    isolated resource function get fhir/r4/AllergyIntolerance/[string id]/_history/[string vid](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:OperationOutcome|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Search for resources based on a set of criteria.
-    isolated resource function get fhir/r4/AllergyIntolerance (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntoleranceResponse|r4:FHIRError {
-        string version = "1.0.0";
+    isolated resource function get fhir/r4/AllergyIntolerance(r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:OperationOutcome|r4:FHIRError {
         r4:FHIRRequest? fhirRequest = fhirContext.getFHIRRequest();
         map<string> queryParams = {};
-        string path = string `/mohfhirproxyapi/${version}/AllergyIntolerance`;
+        string path = string `${basePath}/AllergyIntolerance`;
         if fhirRequest is r4:FHIRRequest {
             map<r4:RequestSearchParameter[] & readonly> & readonly searchParameters = fhirRequest.getSearchParameters();
             //iterate search parameters and build the query string
@@ -134,32 +131,106 @@ service / on new fhirr4:Listener(9090, apiConfig) {
     }
 
     // Create a new resource.
-    isolated resource function post fhir/r4/AllergyIntolerance (r4:FHIRContext fhirContext, AllergyIntolerance allergyintolerance) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
-        return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
+    isolated resource function post fhir/r4/AllergyIntolerance(r4:FHIRContext fhirContext, AllergyIntolerance allergyintolerance) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntolerance|r4:OperationOutcome|r4:FHIRError {
+        string path = string `${basePath}/AllergyIntolerance`;
+
+        do {
+            anydata parsedPayload = check fhirParser:parse(allergyintolerance.toJson());
+            lkcore010:LKCoreAllergyIntolerance parsedResource = check parsedPayload.cloneWithType(lkcore010:LKCoreAllergyIntolerance);
+
+            http:Response|http:ClientError response = allergyIntoleranceApiClient->post(path, message = parsedResource,
+                headers = {
+                apikey: apiKey
+            }
+            );
+
+            if response !is http:Response {
+                return handleError("Error occurred while calling the Update API: ", response, http:STATUS_INTERNAL_SERVER_ERROR);
+            }
+
+            json|http:ClientError jsonPayload = response.getJsonPayload();
+            if !isSuccessCode(response.statusCode) {
+                return handleError("Error code returned from the Update API: ", jsonPayload, http:STATUS_INTERNAL_SERVER_ERROR);
+            }
+
+            if jsonPayload !is json {
+                return handleError("Error occurred while accessing response: ", jsonPayload, http:STATUS_UNPROCESSABLE_ENTITY);
+            }
+
+            do {
+                if jsonPayload.resourceType == "OperationOutcome" {
+                    return check fhirParser:parse(jsonPayload).ensureType();
+                }
+                anydata result = check fhirParser:parse(jsonPayload);
+                return check result.cloneWithType(lkcore010:LKCoreAllergyIntolerance);
+            } on fail var e {
+                return handleError("Error occurred while parsing the response: ", e, http:STATUS_UNPROCESSABLE_ENTITY);
+            }
+
+        } on fail var e {
+            return handleError("Error occurred while parsing the payload: ", e, http:STATUS_UNPROCESSABLE_ENTITY);
+        }
     }
 
     // Update the current state of a resource completely.
-    isolated resource function put fhir/r4/AllergyIntolerance/[string id] (r4:FHIRContext fhirContext, AllergyIntolerance allergyintolerance) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
-        return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
+    isolated resource function put fhir/r4/AllergyIntolerance/[string id](r4:FHIRContext fhirContext, AllergyIntolerance allergyintolerance) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntolerance|r4:OperationOutcome|r4:FHIRError {
+        string path = string `${basePath}/AllergyIntolerance/${id}`;
+
+        do {
+            anydata parsedPayload = check fhirParser:parse(allergyintolerance.toJson());
+            lkcore010:LKCoreAllergyIntolerance parsedResource = check parsedPayload.cloneWithType(lkcore010:LKCoreAllergyIntolerance);
+
+            http:Response|http:ClientError response = allergyIntoleranceApiClient->put(path, message = parsedResource,
+                headers = {
+                apikey: apiKey
+            }
+            );
+
+            if response !is http:Response {
+                return handleError("Error occurred while calling the Update API: ", response, http:STATUS_INTERNAL_SERVER_ERROR);
+            }
+
+            json|http:ClientError jsonPayload = response.getJsonPayload();
+            if !isSuccessCode(response.statusCode) {
+                return handleError("Error code returned from the Update API: ", jsonPayload, http:STATUS_INTERNAL_SERVER_ERROR);
+            }
+
+            if jsonPayload !is json {
+                return handleError("Error occurred while accessing response: ", jsonPayload, http:STATUS_UNPROCESSABLE_ENTITY);
+            }
+
+            do {
+                if jsonPayload.resourceType == "OperationOutcome" {
+                    return check fhirParser:parse(jsonPayload).ensureType();
+                }
+                anydata result = check fhirParser:parse(jsonPayload);
+                return check result.cloneWithType(lkcore010:LKCoreAllergyIntolerance);
+            } on fail var e {
+                return handleError("Error occurred while parsing the response: ", e, http:STATUS_UNPROCESSABLE_ENTITY);
+            }
+
+        } on fail var e {
+            return handleError("Error occurred while parsing the payload: ", e, http:STATUS_UNPROCESSABLE_ENTITY);
+        }
     }
 
     // Update the current state of a resource partially.
-    isolated resource function patch fhir/r4/AllergyIntolerance/[string id] (r4:FHIRContext fhirContext, json patch) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
+    isolated resource function patch fhir/r4/AllergyIntolerance/[string id](r4:FHIRContext fhirContext, json patch) returns @http:Payload {mediaType: ["application/fhir+json"]} AllergyIntolerance|r4:OperationOutcome|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Delete a resource.
-    isolated resource function delete fhir/r4/AllergyIntolerance/[string id] (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
+    isolated resource function delete fhir/r4/AllergyIntolerance/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:OperationOutcome|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Retrieve the update history for a particular resource.
-    isolated resource function delete fhir/r4/AllergyIntolerance/[string id]/_history (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
+    isolated resource function delete fhir/r4/AllergyIntolerance/[string id]/_history(r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 
     // Retrieve the update history for all resources.
-    isolated resource function delete fhir/r4/AllergyIntolerance/_history (r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
+    isolated resource function delete fhir/r4/AllergyIntolerance/_history(r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:Bundle|r4:FHIRError {
         return r4:createFHIRError("Not implemented", r4:ERROR, r4:INFORMATIONAL, httpStatusCode = http:STATUS_NOT_IMPLEMENTED);
     }
 }

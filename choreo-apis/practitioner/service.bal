@@ -217,7 +217,7 @@ service / on new fhirr4:Listener(9090, apiConfig) {
     }
 
     // Delete a resource.
-    isolated resource function delete fhir/r4/Practitioner/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} r4:OperationOutcome|r4:FHIRError {
+    isolated resource function delete fhir/r4/Practitioner/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} Practitioner|r4:OperationOutcome|r4:FHIRError {
         string path = string `${basePath}/Practitioner/${id}`;
 
         http:Response|http:ClientError response = practitionerApiClient->delete(path, 

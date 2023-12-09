@@ -14,11 +14,11 @@ export function LanguageSelector() {
   return (
     <Select defaultValue="en">
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select a fruit" />
+        <SelectValue placeholder="Select a Language" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Fruits</SelectLabel>
+          <SelectLabel>Languages</SelectLabel>
           <SelectItem value="sin">Sinhala</SelectItem>
           <SelectItem value="en">English</SelectItem>
           <SelectItem value="tam">Tamil</SelectItem>

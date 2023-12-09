@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
+import { NavBar } from "@/modules/nav-bar";
 export default function Home() {
   return (
-    <>
-      <h1 className="font-black">Home</h1>
-    </>
+    <div className="px-40">
+      <NavBar />
+    </div>
   );
 }

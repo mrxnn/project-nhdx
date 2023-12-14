@@ -62,7 +62,7 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center text-white text-base leading-7 whitespace-nowrap items-center mt-32 max-md:mt-10">
+      <div className="flex justify-center text-slate-600 text-xs leading-7 whitespace-nowrap items-center mt-32 max-md:mt-10">
         Copyrights 2023 © Ministry Of Health - Sri Lanka
       </div>
     </footer>

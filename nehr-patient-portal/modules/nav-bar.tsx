@@ -4,6 +4,7 @@ import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet";
 import { NavbarLinks } from "@/components/navbar-links";
 import { LanguageSelector } from "@/components/language-selector";
 import { FaBars } from "react-icons/fa";
+import { Separator } from "@/components/ui/separator";
 
 export const NavBar = () => {
   return (
@@ -33,6 +34,7 @@ export const NavBar = () => {
           </Sheet>
         </div>
       </header>
+      <Separator />
     </>
   );
 };

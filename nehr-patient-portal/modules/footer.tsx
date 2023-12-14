@@ -1,10 +1,17 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 export const Footer = () => {
   return (
     <footer className="sticky top-full bg-slate-900 flex w-full flex-col justify-center pt-8 max-md:pt-0 px-40 pb-8 max-md:px-4 max-md:max-w-full ">
-      <div className="flex w-full max-w-full items-stretch justify-between gap-5 max-md:flex-wrap">
+      <motion.div
+        initial={{ opacity: 0, y: 5 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex w-full max-w-full items-stretch justify-between gap-5 max-md:flex-wrap"
+      >
         <div className="max-md:max-w-full">
           <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
             <div className="flex flex-col items-stretch max-md:w-full max-md:ml-0">
@@ -61,9 +68,9 @@ export const Footer = () => {
             </Link>
           </div>
         </div>
-      </div>
+      </motion.div>
       <div className="flex justify-center text-slate-600 text-xs leading-7 whitespace-nowrap items-center mt-32 max-md:mt-10">
-        Copyrights 2023 © Ministry Of Health - Sri Lanka
+        Copyright {new Date().getFullYear()} © Ministry Of Health - Sri Lanka
       </div>
     </footer>
   );

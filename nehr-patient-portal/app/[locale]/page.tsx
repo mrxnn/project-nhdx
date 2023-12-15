@@ -2,6 +2,7 @@ import { Footer } from "@/modules/footer";
 import { HeroSection } from "@/modules/home-hero";
 import initTranslations from "../i18n";
 import { TranslationsProvider } from "@/contexts/translations-provider";
+import { NavBar } from "@/modules/nav-bar";
 
 const i18nNamespaces = ["home"];
 
@@ -18,6 +19,7 @@ export default async function Home({
       locale={locale}
       resources={resources}
     >
+      <NavBar />
       <HeroSection />
       <Footer />
     </TranslationsProvider>

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
-import { NavBar } from "@/modules/nav-bar";
-import initTranslations from "../i18n";
 
 const inter = Manrope({ subsets: ["latin"] });
 
@@ -19,10 +17,7 @@ export default async function RootLayout({
   return (
     <html>
       <body className={inter.className}>
-        <div className="min-h-screen">
-          <NavBar />
-          {children}
-        </div>
+        <div className="min-h-screen">{children}</div>
       </body>
     </html>
   );

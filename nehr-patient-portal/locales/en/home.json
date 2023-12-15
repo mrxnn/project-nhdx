@@ -1,3 +1,6 @@
 {
-  "heroHeading": "Welcome to the National Electronic Health Record Platform."
+  "heroHeading": "Welcome to the National Electronic Health Record Platform.",
+  "heroSubHeading": "The National Electronic Health Record (NEHR) is a key enabler for Sri Lanka’s strategic vision of One Patient, One Health Record.",
+  "signIn": "Sign In",
+  "register": "Register"
 }

@@ -18,12 +18,11 @@ export const HeroSection = () => {
           {t("heroHeading")}
         </h1>
         <p className="text-slate-500 text-center text-base leading-7 self-center max-w-[694px] mt-3 max-md:max-w-full">
-          {`The National Electronic Health Record (NEHR) is a key enabler for Sri
-        Lanka’s strategic vision of "One Patient, One Health Record".`}
+          {t("heroSubHeading")}
         </p>
         <div className="flex mt-2 lg:mt-4 gap-2">
-          <Button>Sign In</Button>
-          <Button variant="outline">Register</Button>
+          <Button> {t("signIn")}</Button>
+          <Button variant="outline"> {t("register")}</Button>
         </div>
       </>
     </motion.div>

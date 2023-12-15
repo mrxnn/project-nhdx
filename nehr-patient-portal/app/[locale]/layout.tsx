@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
+import { NavBar } from "@/modules/nav-bar";
+import initTranslations from "../i18n";
 
 const inter = Manrope({ subsets: ["latin"] });
 
@@ -9,14 +11,19 @@ export const metadata: Metadata = {
   description: "NEHR Client Application",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <html>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="min-h-screen">
+          <NavBar />
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

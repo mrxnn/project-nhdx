@@ -20,6 +20,7 @@ export const LanguageSelector = () => {
   const currentLocale = i18n.language;
   const router = useRouter();
   const currentPathname = usePathname();
+  const { t } = useTranslation();
 
   const handleChange = (newLocale: string) => {
     const days = 30;
@@ -50,10 +51,10 @@ export const LanguageSelector = () => {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Languages</SelectLabel>
-          <SelectItem value="si">Sinhala</SelectItem>
+          <SelectLabel> {t("language")}</SelectLabel>
+          <SelectItem value="si">සිංහල</SelectItem>
           <SelectItem value="en">English</SelectItem>
-          <SelectItem value="ta">Tamil</SelectItem>
+          <SelectItem value="ta">தமிழ்</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

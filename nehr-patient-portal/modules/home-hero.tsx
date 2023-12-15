@@ -14,7 +14,7 @@ export const HeroSection = () => {
       className="flex flex-col w-full my-32 text-center items-center md:px-40 max-md:px-4"
     >
       <>
-        <h1 className="text-slate-900 text-center text-5xl font-extrabold leading-10 tracking-tight self-center max-w-[814px] max-md:max-w-full max-md:text-4xl max-md:leading-10 max-md:mt-10">
+        <h1 className="text-slate-900 text-center text-5xl font-extrabold tracking-tight self-center max-w-[814px] max-md:max-w-full max-md:text-4xl max-md:leading-10 max-md:mt-10">
           {t("heroHeading")}
         </h1>
         <p className="text-slate-500 text-center text-base leading-7 self-center max-w-[694px] mt-3 max-md:max-w-full">

@@ -1,0 +1,17 @@
+{
+  "email": "Email",
+  "givenName": "Given name",
+  "surname": "Surname",
+  "interfaceLanguage": "Interface language",
+  "saveChanges": "Save changes",
+  "validation": {
+    "required": "Unfortunately you can't leave this field blank",
+    "onlyLettersAllowed": "Numbers or special characters are not allowed",
+    "tooLong": "You can't enter more than 100 characters",
+    "invalidEmail": "Invalid email address"
+  },
+  "toastMessages": {
+    "changesSaved": "Your changes were saved.",
+    "errorSavingChanges": "Your changes weren't saved."
+  }
+}

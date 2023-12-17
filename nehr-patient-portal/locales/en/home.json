@@ -5,5 +5,14 @@
   "register": "Register",
   "language": "Language",
   "faq": "FAQ",
-  "contactUs": "Contact Us"
+  "contactUs": "Contact Us",
+  "aboutThePortal": "About the portal",
+  "aboutNEHR": "About the NEHR",
+  "aboutNEHRPatientPortal": "About NEHR Patient Portal",
+  "contributingOrganizations": "Contributing Organizations",
+  "importantLinks": "Important Links",
+  "ministryOfHealth": "Ministry of Health",
+  "healthInformationUnit": "Health Information Unit, Ministry of Health",
+  "follow": "Follow",
+  "copyRight": "© Ministry of Health, Sri Lanka. All rights reserved."
 }

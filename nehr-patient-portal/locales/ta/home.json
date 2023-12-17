@@ -5,5 +5,14 @@
   "register": "பதிவு",
   "language": "மொழி",
   "faq": "கேள்விகள்",
-  "contactUs": "தொடர்புக்கு"
+  "contactUs": "தொடர்புக்கு",
+  "aboutThePortal": "போர்டல் பற்றி",
+  "aboutNEHR": "நேர் பற்றி",
+  "aboutNEHRPatientPortal": "NEHR நோயாளி போர்ட்டல் பற்றி",
+  "contributingOrganizations": "பங்களிப்பு நிறுவனங்கள்",
+  "importantLinks": "முக்கியமான இணைப்புகள்",
+  "ministryOfHealth": "சுகாதார அமைச்சகம்",
+  "healthInformationUnit": "சுகாதார தகவல் பிரிவு, சுகாதார அமைச்சகம்",
+  "follow": "பின்தொடர்",
+  "copyRight": "பதிப்புரிமை © நேஷனல் எலக்ட்ரானிக் ஹெல்த் ரெக்கார்ட் போர்டல். அனைத்து உரிமைகள் பாதுகாக்கப்பட்டுள்ளன."
 }

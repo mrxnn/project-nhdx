@@ -3,8 +3,9 @@ import { HeroSection } from "@/modules/home-hero";
 import initTranslations from "../i18n";
 import { TranslationsProvider } from "@/contexts/translations-provider";
 import { NavBar } from "@/modules/nav-bar";
+import { HOME } from "@/locales/namespaces";
 
-const i18nNamespaces = ["home"];
+const i18nNamespaces = [HOME];
 
 export default async function Home({
   params: { locale },

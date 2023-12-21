@@ -60,7 +60,7 @@ export const Footer = () => {
           <div className="text-white text-xl font-extrabold leading-7 tracking-normal whitespace-nowrap">
             {t("follow")}
           </div>
-          <div className="flex items-stretch justify-between gap-5 mt-9 max-md:justify-center">
+          <div className="flex justify-start gap-5 mt-9 max-md:justify-center">
             <Link href="#">
               <FaFacebook color="white" size={24} />
             </Link>

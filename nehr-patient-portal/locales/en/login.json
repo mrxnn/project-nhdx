@@ -1,0 +1,10 @@
+{
+  "heading": "Welcome to the Patient Portal",
+  "subHeading": "Patient Portal is a secure online website that gives patients convenient 24-hour access to personal health information from anywhere with an Internet connection.",
+  "form": {
+    "title": "Sign In to Continue",
+    "button": "Sign In",
+    "username": "Username",
+    "password": "Password"
+  }
+}

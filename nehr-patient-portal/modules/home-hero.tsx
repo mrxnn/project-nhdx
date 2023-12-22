@@ -2,10 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 export const HeroSection = () => {
   const { t } = useTranslation();
+  const router = useRouter();
+
+  const handleOnClickSignIn = () => {
+    router.push("/login");
+  };
 
   return (
     <motion.div
@@ -21,7 +27,7 @@ export const HeroSection = () => {
           {t("heroSubHeading")}
         </p>
         <div className="flex mt-2 lg:mt-4 gap-2">
-          <Button> {t("signIn")}</Button>
+          <Button onClick={handleOnClickSignIn}> {t("signIn")}</Button>
           <Button variant="outline"> {t("register")}</Button>
         </div>
       </>

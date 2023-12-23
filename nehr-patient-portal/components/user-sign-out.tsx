@@ -7,8 +7,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import { useTranslation } from "react-i18next";
 
 export const UserSignOut = () => {
+  const { t } = useTranslation();
+
   return (
     <TooltipProvider>
       <Tooltip>
@@ -17,7 +20,7 @@ export const UserSignOut = () => {
             <FaSignOutAlt />
             <span className="sr-only">sign out</span>
           </Button>
-          <TooltipContent>Sign Out</TooltipContent>
+          <TooltipContent>{t("signOut")}</TooltipContent>
         </TooltipTrigger>
       </Tooltip>
     </TooltipProvider>

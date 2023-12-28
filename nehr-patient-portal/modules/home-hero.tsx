@@ -33,7 +33,7 @@ export const HeroSection = () => {
           </div>
         ) : (
           <div className="flex mt-2 lg:mt-4 gap-2">
-            <Button onClick={() => router.push("#")}>
+            <Button onClick={() => router.push("dashboard")}>
               {t("goToDashboard")}
             </Button>
           </div>

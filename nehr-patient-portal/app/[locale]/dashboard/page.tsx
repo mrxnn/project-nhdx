@@ -4,14 +4,13 @@ import { TranslationsProvider } from "@/contexts/translations-provider";
 import { NavBar } from "@/modules/nav-bar";
 import { DASHBOARD, HOME } from "@/locales/namespaces";
 import initTranslations from "@/app/i18n";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { RecordHome } from "@/modules/record-home";
 import { MyProfile } from "@/modules/my-profile";
 import { MyPHNs } from "@/modules/my-phns";
 import { MySubmissions } from "@/modules/my-submissions";
 import { PrivacyAndAccess } from "@/modules/privacy-and-access";
-import { useTranslation } from "react-i18next";
 import { DashboardTabList } from "@/modules/dashboard-tab-list";
 
 const i18nNamespaces = [HOME, DASHBOARD];

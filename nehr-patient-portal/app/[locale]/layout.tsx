@@ -9,14 +9,16 @@ export const metadata: Metadata = {
   description: "NEHR Client Application",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html>
+      <body className={inter.className}>
+        <div className="min-h-screen">{children}</div>
+      </body>
     </html>
   );
 }

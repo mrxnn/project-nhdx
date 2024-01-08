@@ -2,9 +2,12 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 export const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="sticky top-full bg-slate-900 flex w-full flex-col justify-center pt-8 max-md:pt-0 px-40 pb-8 max-md:px-4 max-md:max-w-full ">
       <motion.div
@@ -17,20 +20,20 @@ export const Footer = () => {
             <div className="flex flex-col items-stretch max-md:w-full max-md:ml-0">
               <div className="text-white text-base leading-7 tracking-normal max-md:mt-10">
                 <h4 className="text-xl font-semibold tracking-tight">
-                  About the portal
+                  {t("aboutThePortal")}
                   <br />
                 </h4>
                 <span className="font-bold">
                   <br />
                 </span>
                 <span className="">
-                  <Link href="#">About NEHR Patient Portal</Link>
+                  <Link href="#">{t("aboutNEHRPatientPortal")}</Link>
                   <br />
-                  <Link href="#">About NEHR</Link>
+                  <Link href="#">{t("aboutNEHR")}</Link>
                   <br />
-                  <Link href="#">Contributing Organisations</Link>
+                  <Link href="#">{t("contributingOrganizations")}</Link>
                   <br />
-                  <Link href="#">Contact Us</Link>
+                  <Link href="#">{t("contactUs")}</Link>
                   <br />
                 </span>
               </div>
@@ -39,16 +42,14 @@ export const Footer = () => {
               <div className="flex grow flex-col items-stretch max-md:max-w-full max-md:mt-10">
                 <div className="text-white text-base leading-7 tracking-normal max-md:max-w-full">
                   <h4 className="text-xl font-semibold tracking-tight">
-                    Important Links
+                    {t("importantLinks")}
                     <br />
                   </h4>
                   <span className="">
                     <br />
-                    <Link href="#">Ministry of Health</Link>
+                    <Link href="#">{t("ministryOfHealth")}</Link>
                     <br />
-                    <Link href="#">
-                      Health Information Unit, Ministry of Health
-                    </Link>
+                    <Link href="#">{t("healthInformationUnit")}</Link>
                   </span>
                 </div>
               </div>
@@ -57,9 +58,9 @@ export const Footer = () => {
         </div>
         <div className="flex basis-[0%] flex-col items-stretch self-start max-md:mt-10">
           <div className="text-white text-xl font-extrabold leading-7 tracking-normal whitespace-nowrap">
-            Follow
+            {t("follow")}
           </div>
-          <div className="flex items-stretch justify-between gap-5 mt-9 max-md:justify-center">
+          <div className="flex justify-start gap-5 mt-9 max-md:justify-center">
             <Link href="#">
               <FaFacebook color="white" size={24} />
             </Link>
@@ -70,7 +71,7 @@ export const Footer = () => {
         </div>
       </motion.div>
       <div className="flex justify-center text-slate-600 text-xs leading-7 whitespace-nowrap items-center mt-32 max-md:mt-10">
-        Copyright {new Date().getFullYear()} © Ministry Of Health - Sri Lanka
+        {new Date().getFullYear()} {t("copyRight")}
       </div>
     </footer>
   );

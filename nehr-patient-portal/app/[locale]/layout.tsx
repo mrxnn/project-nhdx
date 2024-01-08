@@ -3,7 +3,7 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import { NextAuthProvider } from "@/contexts/auth-provider";
 
-const inter = Manrope({ subsets: ["latin"] });
+const inter = Manrope({ subsets: ["latin"], variable: "--manrope" });
 
 export const metadata: Metadata = {
   title: "NEHR Client Application",
@@ -17,7 +17,7 @@ export default async function RootLayout({
 }) {
   return (
     <html>
-      <body className={inter.className}>
+      <body className={inter.variable}>
         <div className="min-h-screen">
           <NextAuthProvider>{children}</NextAuthProvider>
         </div>

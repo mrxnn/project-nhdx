@@ -26,15 +26,13 @@ export default async function Dashboard({
     <TranslationsProvider
       namespaces={i18nNamespaces}
       locale={locale}
-      resources={resources}
-    >
+      resources={resources}>
       <NavBar />
       <motion.div
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col w-full my-8 md:px-40 max-md:px-4"
-      >
-        <Tabs defaultValue="record-home">
+        className="flex flex-col w-full my-8 md:px-40 max-md:px-4">
+        <Tabs defaultValue="my-profile">
           <TabsList>
             <DashboardTabList />
           </TabsList>

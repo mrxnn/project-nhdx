@@ -19,7 +19,7 @@ export const DashboardTabList = () => {
     {
       label: t("myProfile"),
       value: "my-profile",
-      disabled: true,
+      disabled: false,
     },
     {
       label: t("myPHNs"),

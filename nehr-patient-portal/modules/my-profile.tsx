@@ -30,6 +30,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslation } from "react-i18next";
+import { DASHBOARD } from "@/locales/namespaces";
 
 const formSchema = z.object({
   name: z
@@ -75,6 +77,8 @@ const formSchema = z.object({
 });
 
 export const MyProfile = () => {
+  const { t } = useTranslation(DASHBOARD);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -104,7 +108,7 @@ export const MyProfile = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         {/* Demographics */}
-        <Heading>Demographics</Heading>
+        <Heading>{t("demographics")}</Heading>
         <div className="grid md:grid-cols-3 gap-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
@@ -112,9 +116,9 @@ export const MyProfile = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>{t("name")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Name" {...field} />
+                    <Input placeholder={t("name")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -127,18 +131,18 @@ export const MyProfile = () => {
               name="gender"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Gender</FormLabel>
+                  <FormLabel>{t("gender")}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger className="focus-visible:ring-2">
-                        <SelectValue placeholder="Gender" />
+                        <SelectValue placeholder={t("gender")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="male">{t("male")}</SelectItem>
+                      <SelectItem value="female">{t("female")}</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -152,7 +156,7 @@ export const MyProfile = () => {
               name="dateOfBirth"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Date of birth</FormLabel>
+                  <FormLabel>{t("dateOfBirth")}</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -165,7 +169,7 @@ export const MyProfile = () => {
                           {field.value ? (
                             format(field.value, "PPP")
                           ) : (
-                            <span>Pick a date</span>
+                            <span>{t("dateOfBirth")}</span>
                           )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
@@ -194,13 +198,13 @@ export const MyProfile = () => {
               name="maritalStatus"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Marital Status</FormLabel>
+                  <FormLabel>{t("maritalStatus")}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger className="focus-visible:ring-2">
-                        <SelectValue placeholder="Marital Status" />
+                        <SelectValue placeholder={t("maritalStatus")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -218,7 +222,7 @@ export const MyProfile = () => {
         </div>
 
         {/* Identifiers */}
-        <Heading>Identifiers</Heading>
+        <Heading>{t("identifiers")}</Heading>
         <div className="grid md:grid-cols-3 gap-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
@@ -226,9 +230,9 @@ export const MyProfile = () => {
               name="nationalIdNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>National ID Number</FormLabel>
+                  <FormLabel>{t("nationalIdNumber")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="NIC" {...field} />
+                    <Input placeholder={t("nationalIdNumber")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -241,9 +245,9 @@ export const MyProfile = () => {
               name="passportNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Passport Number</FormLabel>
+                  <FormLabel>{t("passportNumber")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Passport Number" {...field} />
+                    <Input placeholder={t("passportNumber")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -256,9 +260,9 @@ export const MyProfile = () => {
               name="drivingLicenseNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Driving License Number</FormLabel>
+                  <FormLabel>{t("drivingLicenseNumber")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Driving License Number" {...field} />
+                    <Input placeholder={t("drivingLicenseNumber")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -271,9 +275,9 @@ export const MyProfile = () => {
               name="seniorCitizenNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Senior Citizen Number</FormLabel>
+                  <FormLabel>{t("seniorCitizenNumber")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Senior Citizen Number" {...field} />
+                    <Input placeholder={t("seniorCitizenNumber")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -283,7 +287,7 @@ export const MyProfile = () => {
         </div>
 
         {/* Nationality */}
-        <Heading>Nationality</Heading>
+        <Heading>{t("nationality")}</Heading>
         <div>
           <FormField
             control={form.control}
@@ -298,7 +302,7 @@ export const MyProfile = () => {
                 </FormControl>
                 <div className="-translate-y-1">
                   <FormLabel className="text-sm cursor-pointer">
-                    Sri Lankan
+                    {t("sriLankan")}
                   </FormLabel>
                 </div>
               </FormItem>
@@ -307,7 +311,7 @@ export const MyProfile = () => {
         </div>
 
         {/* Contact Info */}
-        <Heading>Contact Information</Heading>
+        <Heading>{t("contactInformation")}</Heading>
         <div className="grid md:grid-cols-3 gap-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
@@ -315,9 +319,9 @@ export const MyProfile = () => {
               name="mobileNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mobile Number</FormLabel>
+                  <FormLabel>{t("mobileNumber")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Mobile Number" {...field} />
+                    <Input placeholder={t("mobileNumber")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -330,9 +334,9 @@ export const MyProfile = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email Address</FormLabel>
+                  <FormLabel>{t("emailAddress")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email Address" {...field} />
+                    <Input placeholder={t("emailAddress")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -346,9 +350,9 @@ export const MyProfile = () => {
               name="address"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Address</FormLabel>
+                  <FormLabel>{t("address")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Address" {...field} />
+                    <Input placeholder={t("address")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -361,9 +365,12 @@ export const MyProfile = () => {
               name="gramaNiladariDivision"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Grama Niladari Division</FormLabel>
+                  <FormLabel>{t("gramaNiladariDivision")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Grama Niladari Division" {...field} />
+                    <Input
+                      placeholder={t("gramaNiladariDivision")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -373,7 +380,7 @@ export const MyProfile = () => {
         </div>
 
         {/* Other */}
-        <Heading>Other</Heading>
+        <Heading>{t("other")}</Heading>
         <div className="space-y-5 md:max-w-[calc((100%-40px)/3)]">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
@@ -381,9 +388,9 @@ export const MyProfile = () => {
               name="occupation"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Occupation</FormLabel>
+                  <FormLabel>{t("occupation")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Occupation" {...field} />
+                    <Input placeholder={t("occupation")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -396,9 +403,12 @@ export const MyProfile = () => {
               name="highestEducationLevel"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Highest Education Level</FormLabel>
+                  <FormLabel>{t("highestEducationLevel")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Highest Education Level" {...field} />
+                    <Input
+                      placeholder={t("highestEducationLevel")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -408,7 +418,7 @@ export const MyProfile = () => {
         </div>
 
         {/* Guardian Information */}
-        <Heading>Guardian Information</Heading>
+        <Heading>{t("emergencyContactInfo")}</Heading>
         <div className="grid md:grid-cols-3 gap-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
@@ -416,9 +426,9 @@ export const MyProfile = () => {
               name="guardianName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>{t("name")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Name" {...field} />
+                    <Input placeholder={t("name")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -431,9 +441,9 @@ export const MyProfile = () => {
               name="guardianAddress"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Address</FormLabel>
+                  <FormLabel>{t("address")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Address" {...field} />
+                    <Input placeholder={t("address")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -446,9 +456,9 @@ export const MyProfile = () => {
               name="guardianMobileNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mobile Number</FormLabel>
+                  <FormLabel>{t("mobileNumber")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Mobile Number" {...field} />
+                    <Input placeholder={t("mobileNumber")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -461,20 +471,20 @@ export const MyProfile = () => {
               name="relationship"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Relationship</FormLabel>
+                  <FormLabel>{t("relationship")}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger className="focus-visible:ring-2">
-                        <SelectValue placeholder="Relationship" />
+                        <SelectValue placeholder={t("relationship")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="father">Father</SelectItem>
-                      <SelectItem value="mother">Mother</SelectItem>
-                      <SelectItem value="spouse">Spouse</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
+                      <SelectItem value="father">{t("father")}</SelectItem>
+                      <SelectItem value="mother">{t("mother")}</SelectItem>
+                      <SelectItem value="spouse">{t("spouse")}</SelectItem>
+                      <SelectItem value="other">{t("other")}</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />

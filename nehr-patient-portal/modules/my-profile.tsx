@@ -64,16 +64,18 @@ const formSchema = z.object({
     .string()
     .max(50, "Must be at most 50 charactors")
     .optional(),
-  guardianName: z
+  emergencyContactName: z
     .string()
     .min(2, "Must be at least 2 charactors")
     .max(50, "Must be at most 50 charactors"),
-  guardianAddress: z
+  emergencyContactAddress: z
     .string()
     .min(10, "Must be at least 10 charactors")
     .max(200, "Guardian Address must be at most 200 charactors"),
-  guardianMobileNumber: z.string().length(10, "Must be at least 10 charactors"),
-  relationship: z.enum(["father", "mother", "spouse", "other"]),
+  emergencyContactMobileNumber: z
+    .string()
+    .length(10, "Must be at least 10 charactors"),
+  emergencyContactRelationship: z.enum(["father", "mother", "spouse", "other"]),
 });
 
 export const MyProfile = () => {
@@ -94,9 +96,9 @@ export const MyProfile = () => {
       gramaNiladariDivision: "",
       occupation: "",
       highestEducationLevel: "",
-      guardianName: "",
-      guardianAddress: "",
-      guardianMobileNumber: "",
+      emergencyContactName: "",
+      emergencyContactAddress: "",
+      emergencyContactMobileNumber: "",
     },
   });
 
@@ -208,10 +210,10 @@ export const MyProfile = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="single">Single</SelectItem>
-                      <SelectItem value="married">Married</SelectItem>
-                      <SelectItem value="divorced">Divorced</SelectItem>
-                      <SelectItem value="widowed">Widowed</SelectItem>
+                      <SelectItem value="single">{t("single")}</SelectItem>
+                      <SelectItem value="married">{t("married")}</SelectItem>
+                      <SelectItem value="divorced">{t("divorced")}</SelectItem>
+                      <SelectItem value="widowed">{t("widowed")}</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -417,13 +419,13 @@ export const MyProfile = () => {
           </div>
         </div>
 
-        {/* Guardian Information */}
+        {/* Emergency Contact Information */}
         <Heading>{t("emergencyContactInfo")}</Heading>
         <div className="grid md:grid-cols-3 gap-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
               control={form.control}
-              name="guardianName"
+              name="emergencyContactName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t("name")}</FormLabel>
@@ -438,7 +440,7 @@ export const MyProfile = () => {
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
               control={form.control}
-              name="guardianAddress"
+              name="emergencyContactAddress"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t("address")}</FormLabel>
@@ -453,7 +455,7 @@ export const MyProfile = () => {
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
               control={form.control}
-              name="guardianMobileNumber"
+              name="emergencyContactMobileNumber"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t("mobileNumber")}</FormLabel>
@@ -468,7 +470,7 @@ export const MyProfile = () => {
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
               control={form.control}
-              name="relationship"
+              name="emergencyContactRelationship"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t("relationship")}</FormLabel>

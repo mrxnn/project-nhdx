@@ -7,5 +7,13 @@
   "myProfile": "என் சுயவிவரம்",
   "myPHNs": "என் PHN",
   "mySubmissions": "என் சமர்ப்பிப்புகள்",
-  "privacyAndAccess": "தனியுரிமை மற்றும் அணுகல்"
+  "privacyAndAccess": "தனியுரிமை மற்றும் அணுகல்",
+  "personalInformation": "தனிப்பட்ட தகவல்",
+  "accountInformation": "கணக்கு தகவல்",
+  "name": "பெயர்",
+  "gender": "பாலினம்",
+  "dob": "பிறந்த தேதி",
+  "lastPortalLogin": "கடைசி போர்ட்டல் உள்நுழைவு",
+  "lastProviderAccess": "கடைசி வழங்குநர் அணுகல்",
+  "linkedPHNs": "இணைக்கப்பட்ட PHN"
 }

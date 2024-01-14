@@ -1,5 +1,6 @@
 "use client";
 
+import { AccountInfo } from "@/components/forms/record-home/account-info";
 import { PersonalInfo } from "@/components/forms/record-home/personal-info";
 import { OverviewCard } from "@/components/overview-card";
 import { DASHBOARD } from "@/locales/namespaces";
@@ -45,6 +46,7 @@ export const RecordHome = () => {
         />
       </div>
       <PersonalInfo />
+      <AccountInfo />
     </div>
   );
 };

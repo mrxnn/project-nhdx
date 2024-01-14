@@ -7,5 +7,13 @@
   "myProfile": "මගේ පැතිකඩ",
   "myPHNs": "මගේ PHN",
   "mySubmissions": "මගේ ඉදිරිපත් කිරීම්",
-  "privacyAndAccess": "පෞද්ගලිකත්වය සහ ප්රවේශය"
+  "privacyAndAccess": "පෞද්ගලිකත්වය සහ ප්රවේශය",
+  "personalInformation": "පෞද්ගලික තොරතුරු",
+  "accountInformation": "ගිණුම් තොරතුරු",
+  "name": "නම",
+  "gender": "පෙරහන්",
+  "dob": "උපන්දිනය",
+  "lastPortalLogin": "අවසන් පෝර්ටල් ලොගින්",
+  "lastPortalAccess": "අවසන් පෝර්ටල් ප්රවේශය",
+  "linkedPHNs": "අදාල PHN"
 }

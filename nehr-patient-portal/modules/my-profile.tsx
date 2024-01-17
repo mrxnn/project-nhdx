@@ -1,13 +1,9 @@
 "use client";
 
 import * as z from "zod";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
 import { useForm } from "react-hook-form";
-import { CalendarIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -18,11 +14,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -39,7 +30,7 @@ const formSchema = z.object({
     .min(2, "Must be at least 2 charactors")
     .max(50, "Must be at most 50 charactors"),
   gender: z.enum(["male", "female", "other"]),
-  dateOfBirth: z.date(),
+  dateOfBirth: z.string().min(2, "Required"),
   maritalStatus: z.enum(["single", "married", "divorced", "widowed"]),
   nationalIdNumber: z
     .string()
@@ -72,9 +63,7 @@ const formSchema = z.object({
     .string()
     .min(10, "Must be at least 10 charactors")
     .max(200, "Guardian Address must be at most 200 charactors"),
-  emergencyContactMobileNumber: z
-    .string()
-    .length(10, "Must be at least 10 charactors"),
+  emergencyContactMobileNumber: z.string().length(10, "Must be 10 charactors"),
   emergencyContactRelationship: z.enum(["father", "mother", "spouse", "other"]),
 });
 
@@ -85,6 +74,7 @@ export const MyProfile = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      dateOfBirth: "",
       nationalIdNumber: "",
       passportNumber: "",
       drivingLicenseNumber: "",
@@ -104,6 +94,7 @@ export const MyProfile = () => {
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     console.log(data);
+    form.reset();
   }
 
   return (
@@ -157,38 +148,11 @@ export const MyProfile = () => {
               control={form.control}
               name="dateOfBirth"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem>
                   <FormLabel>{t("dateOfBirth")}</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}>
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>{t("dateOfBirth")}</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  <FormControl>
+                    <Input {...field} type="date" />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

@@ -15,5 +15,8 @@
   "dob": "උපන්දිනය",
   "lastPortalLogin": "අවසන් පෝර්ටල් ලොගින්",
   "lastProviderAccess": "අවසන් පෝර්ටල් ප්රවේශය",
-  "linkedPHNs": "අදාල PHN"
+  "linkedPHNs": "අදාල PHN",
+  "male": "පිරිමි",
+  "female": "ගැහැණු",
+  "other": "වෙනත්"
 }

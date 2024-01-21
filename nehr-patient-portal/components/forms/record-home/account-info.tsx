@@ -11,7 +11,7 @@ export const AccountInfo = () => {
   return (
     <div>
       <TitleSeparator title={t("accountInformation")} />
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 mt-5">
         <div className="grid grid-cols-3 self-stretch items-stretch justify-between gap-5 mt-5 max-md:max-w-full max-md:flex-wrap">
           <div className="items-stretch flex grow basis-[0%] flex-col gap-2">
             <Label htmlFor="text">{t("lastPortalLogin")}</Label>

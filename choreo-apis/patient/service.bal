@@ -48,7 +48,7 @@ service / on new fhirr4:Listener(9090, apiConfig) {
     isolated resource function get fhir/r4/Patient/[string id](r4:FHIRContext fhirContext) returns @http:Payload {mediaType: ["application/fhir+json"]} Patient|r4:OperationOutcome|r4:FHIRError {
         //TODO: do client initialization at the init time/globally once the DNS issue is fixed.
         //TODO: need to add oauth2 secured client when the token ep cert issue is fixed.
-        string path = string `${basePath}/Practitioner/${id}`;
+        string path = string `${basePath}/Patient/${id}`;
         //TODO: call the MoH proxy API directly once the DNS issue is resolved.
         http:Response|http:ClientError response = patientApiClient->get(path, headers = {
             apikey: apiKey

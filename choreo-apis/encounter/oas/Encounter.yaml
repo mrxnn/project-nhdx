@@ -13,14 +13,14 @@ tags:
 - name: Encounter
 - name: 4.0.1
 paths:
-  /:
+  /fhir/r4/Encounter:
     get:
       tags:
       - GET
       - Encounter
       parameters:
-      - name: id
-        in: path
+      - name: _id
+        in: query
         description: logical identifier
         required: true
         schema:
@@ -287,7 +287,7 @@ paths:
       security:
       - default: []
       x-auth-type: Application & Application User
-  /{id}:
+  /fhir/r4/Encounter/{id}:
     get:
       tags:
       - GET
@@ -347,6 +347,13 @@ paths:
       tags:
       - PATCH
       - Encounter
+      parameters:
+      - name: id
+        in: path
+        description: logical identifier
+        required: true
+        schema:
+          type: string
       responses:
         "200":
           description: patch Encounter operation successful

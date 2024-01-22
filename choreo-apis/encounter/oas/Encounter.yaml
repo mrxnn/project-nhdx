@@ -19,12 +19,6 @@ paths:
       - GET
       - Encounter
       parameters:
-      - name: _id
-        in: query
-        description: logical identifier
-        required: true
-        schema:
-          type: string
       - name: date
         in: query
         description: "Multiple Resources: \r\n\r\n* [AllergyIntolerance](allergyintolerance.html):\

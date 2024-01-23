@@ -1,5 +1,10 @@
+"use client";
+
+import { AccountInfo } from "@/components/forms/record-home/account-info";
+import { PersonalInfo } from "@/components/forms/record-home/personal-info";
 import { OverviewCard } from "@/components/overview-card";
 import { DASHBOARD } from "@/locales/namespaces";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   FaClinicMedical,
@@ -10,6 +15,7 @@ import {
 
 export const RecordHome = () => {
   const { t } = useTranslation(DASHBOARD);
+  const form = useForm();
 
   return (
     <div>
@@ -39,6 +45,8 @@ export const RecordHome = () => {
           icon={<FaHeadSideCough className="h-5 w-5 text-muted-foreground" />}
         />
       </div>
+      <PersonalInfo />
+      <AccountInfo />
     </div>
   );
 };

@@ -38,5 +38,11 @@
   "relationship": "Relationship",
   "father": "Father",
   "mother": "Mother",
-  "spouse": "Spouse"
+  "spouse": "Spouse",
+  "personalInformation": "Personal Information",
+  "accountInformation": "Account Information",
+  "dob": "Date of Birth",
+  "lastPortalLogin": "Last Portal Login",
+  "lastProviderAccess": "Last Provider Access",
+  "linkedPHNs": "Linked PHNs",
 }

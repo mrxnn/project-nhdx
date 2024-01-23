@@ -38,5 +38,11 @@
   "relationship": "உறவு",
   "father": "அப்பா",
   "mother": "அம்மா",
-  "spouse": "ஜீவன்"
+  "spouse": "ஜீவன்",
+  "personalInformation": "தனிப்பட்ட தகவல்",
+  "accountInformation": "கணக்கு தகவல்",
+  "dob": "பிறந்த தேதி",
+  "lastPortalLogin": "கடைசி போர்ட்டல் உள்நுழைவு",
+  "lastProviderAccess": "கடைசி வழங்குநர் அணுகல்",
+  "linkedPHNs": "இணைக்கப்பட்ட PHN",
 }

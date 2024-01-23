@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { useTranslation } from "react-i18next";
 import { DASHBOARD } from "@/locales/namespaces";
+import { HeaderSeperator } from "@/components/header-seperator";
 
 const formSchema = z.object({
   name: z
@@ -101,7 +102,7 @@ export const MyProfile = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         {/* Demographics */}
-        <Heading>{t("demographics")}</Heading>
+        <HeaderSeperator>{t("demographics")}</HeaderSeperator>
         <div className="grid md:grid-cols-3 gap-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
@@ -188,7 +189,7 @@ export const MyProfile = () => {
         </div>
 
         {/* Identifiers */}
-        <Heading>{t("identifiers")}</Heading>
+        <HeaderSeperator>{t("identifiers")}</HeaderSeperator>
         <div className="grid md:grid-cols-3 gap-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
@@ -253,7 +254,7 @@ export const MyProfile = () => {
         </div>
 
         {/* Nationality */}
-        <Heading>{t("nationality")}</Heading>
+        <HeaderSeperator>{t("nationality")}</HeaderSeperator>
         <div>
           <FormField
             control={form.control}
@@ -277,7 +278,7 @@ export const MyProfile = () => {
         </div>
 
         {/* Contact Info */}
-        <Heading>{t("contactInformation")}</Heading>
+        <HeaderSeperator>{t("contactInformation")}</HeaderSeperator>
         <div className="grid md:grid-cols-3 gap-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
@@ -346,7 +347,7 @@ export const MyProfile = () => {
         </div>
 
         {/* Other */}
-        <Heading>{t("other")}</Heading>
+        <HeaderSeperator>{t("other")}</HeaderSeperator>
         <div className="space-y-5 md:max-w-[calc((100%-40px)/3)]">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
@@ -384,7 +385,7 @@ export const MyProfile = () => {
         </div>
 
         {/* Emergency Contact Information */}
-        <Heading>{t("emergencyContactInfo")}</Heading>
+        <HeaderSeperator>{t("emergencyContactInfo")}</HeaderSeperator>
         <div className="grid md:grid-cols-3 gap-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
@@ -465,14 +466,5 @@ export const MyProfile = () => {
         </Button>
       </form>
     </Form>
-  );
-};
-
-const Heading = ({ children }: { children: any }) => {
-  return (
-    <div className="flex items-center gap-x-2 mt-9 mb-5">
-      <h3 className="font-bold text-xl">{children}</h3>
-      <div className="h-px flex-1 bg-slate-200">&nbsp;</div>
-    </div>
   );
 };

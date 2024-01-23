@@ -23,7 +23,8 @@ import {
 } from "@/components/ui/select";
 import { useTranslation } from "react-i18next";
 import { DASHBOARD } from "@/locales/namespaces";
-import { HeaderSeperator } from "@/components/header-seperator";
+import { TitleSeparator } from "@/components/title-separator";
+import { Separator } from "@/components/ui/separator";
 
 const formSchema = z.object({
   name: z
@@ -102,8 +103,8 @@ export const MyProfile = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         {/* Demographics */}
-        <HeaderSeperator>{t("demographics")}</HeaderSeperator>
-        <div className="grid md:grid-cols-3 gap-5">
+        <TitleSeparator title={t("demographics")} />
+        <div className="grid md:grid-cols-3 gap-5 mt-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
               control={form.control}
@@ -187,10 +188,11 @@ export const MyProfile = () => {
             />
           </div>
         </div>
+        <Separator className="sr-only" />
 
         {/* Identifiers */}
-        <HeaderSeperator>{t("identifiers")}</HeaderSeperator>
-        <div className="grid md:grid-cols-3 gap-5">
+        <TitleSeparator title={t("identifiers")} />
+        <div className="grid md:grid-cols-3 gap-5 mt-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
               control={form.control}
@@ -252,10 +254,11 @@ export const MyProfile = () => {
             />
           </div>
         </div>
+        <Separator className="sr-only" />
 
         {/* Nationality */}
-        <HeaderSeperator>{t("nationality")}</HeaderSeperator>
-        <div>
+        <TitleSeparator title={t("nationality")} />
+        <div className="mt-5">
           <FormField
             control={form.control}
             name="nationality"
@@ -276,10 +279,11 @@ export const MyProfile = () => {
             )}
           />
         </div>
+        <Separator className="sr-only" />
 
         {/* Contact Info */}
-        <HeaderSeperator>{t("contactInformation")}</HeaderSeperator>
-        <div className="grid md:grid-cols-3 gap-5">
+        <TitleSeparator title={t("contactInformation")} />
+        <div className="grid md:grid-cols-3 gap-5 mt-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
               control={form.control}
@@ -345,10 +349,11 @@ export const MyProfile = () => {
             />
           </div>
         </div>
+        <Separator className="sr-only" />
 
         {/* Other */}
-        <HeaderSeperator>{t("other")}</HeaderSeperator>
-        <div className="space-y-5 md:max-w-[calc((100%-40px)/3)]">
+        <TitleSeparator title={t("other")} />
+        <div className="space-y-5 md:max-w-[calc((100%-40px)/3)] mt-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
               control={form.control}
@@ -383,10 +388,11 @@ export const MyProfile = () => {
             />
           </div>
         </div>
+        <Separator className="sr-only" />
 
         {/* Emergency Contact Information */}
-        <HeaderSeperator>{t("emergencyContactInfo")}</HeaderSeperator>
-        <div className="grid md:grid-cols-3 gap-5">
+        <TitleSeparator title={t("emergencyContactInfo")} />
+        <div className="grid md:grid-cols-3 gap-5 mt-5">
           <div className="flex flex-col text-sm gap-y-1.5">
             <FormField
               control={form.control}
@@ -460,6 +466,7 @@ export const MyProfile = () => {
             />
           </div>
         </div>
+        <Separator className="sr-only" />
 
         <Button type="submit" className="mt-8">
           Submit

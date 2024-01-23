@@ -11,7 +11,7 @@ export const TitleSeparator: FC<TitleSeparatorProps> = ({ title }) => {
       <div className="text-black text-xl font-extrabold leading-7 tracking-normal grow whitespace-nowrap">
         {title}
       </div>
-      <div className="w-full max-md:hidden">
+      <div className="w-full max-md:hidden" aria-hidden>
         <Separator />
       </div>
     </div>

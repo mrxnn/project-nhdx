@@ -4,7 +4,8 @@ import { AccountInfo } from "@/components/forms/record-home/account-info";
 import { PersonalInfo } from "@/components/forms/record-home/personal-info";
 import { OverviewCard } from "@/components/overview-card";
 import { DASHBOARD } from "@/locales/namespaces";
-import { useForm } from "react-hook-form";
+import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 import {
   FaClinicMedical,
@@ -13,9 +14,28 @@ import {
   FaNotesMedical,
 } from "react-icons/fa";
 
+const PATIENT_HOST =
+  "https://728bba0c-9f10-4bb1-833b-7a9ce5dbfac8-dev.e1-eu-north-azure.choreoapis.dev/mlsa/patient/lk-fhir-patient-api-803/v1.0";
+
 export const RecordHome = () => {
   const { t } = useTranslation(DASHBOARD);
-  const form = useForm();
+  const { data: auth } = useSession();
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["patient"],
+    queryFn: async () => {
+      const response = await fetch(`${PATIENT_HOST}/fhir/r4/Patient/54`, {
+        headers: {
+          Authorization: `Bearer ${auth?.user.idToken}`,
+        },
+      });
+
+      const json = await response.json();
+      return json;
+    },
+  });
+
+  console.log(data, isLoading, isError);
 
   return (
     <div>

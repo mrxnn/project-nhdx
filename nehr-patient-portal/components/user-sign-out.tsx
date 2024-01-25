@@ -15,12 +15,12 @@ export const UserSignOut = () => {
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger>
+        <TooltipTrigger asChild>
           <Button size="icon" variant="outline" onClick={() => signOut()}>
             <FaSignOutAlt />
             <span className="sr-only">sign out</span>
+            <TooltipContent>{t("signOut")}</TooltipContent>
           </Button>
-          <TooltipContent>{t("signOut")}</TooltipContent>
         </TooltipTrigger>
       </Tooltip>
     </TooltipProvider>

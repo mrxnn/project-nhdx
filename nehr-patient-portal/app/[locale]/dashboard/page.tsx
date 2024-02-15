@@ -20,20 +20,18 @@ export default async function Dashboard({
 }: {
   params: { locale: string };
 }) {
-  const { t, resources } = await initTranslations(locale, i18nNamespaces);
+  const { resources } = await initTranslations(locale, i18nNamespaces);
 
   return (
     <TranslationsProvider
       namespaces={i18nNamespaces}
       locale={locale}
-      resources={resources}
-    >
+      resources={resources}>
       <NavBar />
       <motion.div
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col w-full my-8 md:px-40 max-md:px-4"
-      >
+        className="flex flex-col w-full my-8 md:px-40 max-md:px-4">
         <Tabs defaultValue="record-home">
           <TabsList>
             <DashboardTabList />

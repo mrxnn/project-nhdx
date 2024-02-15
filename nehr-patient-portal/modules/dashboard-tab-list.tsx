@@ -14,27 +14,22 @@ export const DashboardTabList = () => {
     {
       label: t("recordHome"),
       value: "record-home",
-      disabled: false,
     },
     {
       label: t("myProfile"),
       value: "my-profile",
-      disabled: true,
     },
     {
       label: t("myPHNs"),
       value: "my-phns",
-      disabled: true,
     },
     {
       label: t("mySubmissions"),
       value: "my-submissions",
-      disabled: true,
     },
     {
       label: t("privacyAndAccess"),
       value: "privacy-and-access",
-      disabled: true,
     },
   ];
 

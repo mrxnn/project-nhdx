@@ -3,21 +3,16 @@
 import { ReactNode } from "react";
 import { LuLandmark, LuChevronRight } from "react-icons/lu";
 
-type EncounterType =
-  | "OPD Encounters"
-  | "Admission Summery"
-  | "HCL Screening"
-  | "Lab Reports"
-  | "Appoinments"
-  | "Vaccinations";
+export const encounterTypes = [
+  "OPD Encounters",
+  "Admission Summery",
+  "HCL Screening",
+  "Lab Reports",
+  "Appoinments",
+  "Vaccinations",
+] as const;
 
-export type Milestone = {
-  id: string;
-  institution: string;
-  date: string;
-  time: string;
-  encounterType: EncounterType;
-};
+type EncounterType = (typeof encounterTypes)[number];
 
 const EncounterTypeColors: Record<EncounterType, string> = {
   "OPD Encounters": "#10b981",
@@ -26,6 +21,14 @@ const EncounterTypeColors: Record<EncounterType, string> = {
   "Lab Reports": "#06b6d4",
   Appoinments: "#3b82f6",
   Vaccinations: "#d946ef",
+};
+
+export type Milestone = {
+  id: string;
+  institution: string;
+  date: string;
+  time: string;
+  encounterType: EncounterType;
 };
 
 export const Timeline = ({

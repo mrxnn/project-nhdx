@@ -9,7 +9,7 @@ export const MedicalHistoryTimeline = () => {
     <div className="flex mt-10 gap-x-24 border border-slate-200 rounded-lg p-7">
       <div className="space-y-2">
         {encounterTypes.map((type, idx) => (
-          <div className="accent-blue-500 space-x-2">
+          <div className="accent-blue-500 space-x-2" key={idx}>
             <input type="checkbox" id={type} className="cursor-pointer" />
             <label htmlFor={type} className="text-sm cursor-pointer">
               {type}

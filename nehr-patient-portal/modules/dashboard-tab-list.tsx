@@ -16,16 +16,16 @@ export const DashboardTabList = () => {
       value: "record-home",
     },
     {
-      label: t("myProfile"),
-      value: "my-profile",
-    },
-    {
       label: t("myPHNs"),
       value: "my-phns",
     },
     {
-      label: t("mySubmissions"),
-      value: "my-submissions",
+      label: t("myCommunications"),
+      value: "my-communications",
+    },
+    {
+      label: t("accessHistory"),
+      value: "access-history",
     },
     {
       label: t("privacyAndAccess"),

@@ -9,9 +9,10 @@ import { motion } from "framer-motion";
 import { RecordHome } from "@/modules/record-home";
 import { MyProfile } from "@/modules/my-profile";
 import { MyPHNs } from "@/modules/my-phns";
-import { MySubmissions } from "@/modules/my-submissions";
+import { MyCommunications } from "@/modules/my-communications";
 import { PrivacyAndAccess } from "@/modules/privacy-and-access";
 import { DashboardTabList } from "@/modules/dashboard-tab-list";
+import { AccessHistory } from "@/modules/access-history";
 
 const i18nNamespaces = [HOME, DASHBOARD];
 
@@ -31,7 +32,7 @@ export default async function Dashboard({
       <motion.div
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col w-full my-8 md:px-40 max-md:px-4">
+        className="flex flex-col w-full my-8 max-w-6xl mx-auto px-4">
         <Tabs defaultValue="record-home">
           <TabsList>
             <DashboardTabList />
@@ -40,14 +41,14 @@ export default async function Dashboard({
             <TabsContent value="record-home">
               <RecordHome />
             </TabsContent>
-            <TabsContent value="my-profile">
-              <MyProfile />
-            </TabsContent>
             <TabsContent value="my-phns">
               <MyPHNs />
             </TabsContent>
-            <TabsContent value="my-submissions">
-              <MySubmissions />
+            <TabsContent value="my-communications">
+              <MyCommunications />
+            </TabsContent>
+            <TabsContent value="access-history">
+              <AccessHistory />
             </TabsContent>
             <TabsContent value="privacy-and-access">
               <PrivacyAndAccess />

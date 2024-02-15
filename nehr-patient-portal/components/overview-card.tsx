@@ -1,33 +1,23 @@
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { ReactNode } from "react";
-
-export interface OverviewCardProps {
+export type OverviewCardProps = {
   title: string;
   value: string;
   lastMonthValue?: string;
-  icon?: ReactNode;
-}
+};
 
 export const OverviewCard = ({
   title,
   value,
   lastMonthValue,
-  icon,
 }: OverviewCardProps) => {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        {icon}
-      </CardHeader>
-      <CardContent className="flex flex-col items-start">
-        <div className="text-2xl font-bold">{value}</div>
-        {lastMonthValue && (
-          <p className="text-xs text-muted-foreground">
-            {lastMonthValue} from last month
-          </p>
-        )}
-      </CardContent>
-    </Card>
+    <div className="border border-slate-200 rounded-lg px-4 py-4">
+      <p className="font-medium space-y-0.5">{title}</p>
+      <p className="font-medium text-[30px] font-mono">{value}</p>
+      {lastMonthValue && (
+        <p className="text-xs text-muted-foreground">
+          {lastMonthValue} from last month
+        </p>
+      )}
+    </div>
   );
 };

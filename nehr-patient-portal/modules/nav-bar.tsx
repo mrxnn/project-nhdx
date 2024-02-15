@@ -16,7 +16,7 @@ export const NavBar = () => {
 
   return (
     <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }}>
-      <header className="flex h-20 w-full items-center px-40 max-md:px-4">
+      <header className="flex h-20 w-full items-center max-w-6xl mx-auto px-4">
         <Link className="mr-6 flex items-center" href="/">
           <span className="text-3xl font-bold">NEHR</span>
         </Link>

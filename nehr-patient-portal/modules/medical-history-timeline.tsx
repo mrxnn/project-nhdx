@@ -67,4 +67,11 @@ const data: Milestone[] = [
     time: "14:31",
     encounterType: "Lab Reports",
   },
+  {
+    id: "1234",
+    institution: "Asiri Surgical Hospital",
+    date: "2023-01-10",
+    time: "14:31",
+    encounterType: "OPD Encounters",
+  },
 ];

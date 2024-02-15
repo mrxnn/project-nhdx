@@ -1,4 +1,4 @@
 # Project-nhdx
 
 ## Description
-This is a project for implementing the nhdx backend components related to the nhdx ehr system.
+This is a project for implementing the National Digital Health Data Exchange(NHDX) backend components related to the NHDX EHR system.

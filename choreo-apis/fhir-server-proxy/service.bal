@@ -24,39 +24,12 @@ configurable map<string> serverComponentRoutes = {
     "metadata": "/fhir/r4/metadata",
     "well-known": "/fhir/r4/.well-known/smart-configuration"
 };
-configurable string clientId = ?;
-configurable string clientSecret = ?;
-configurable string tokenUrl = ?;
-configurable string authServerCertPath = ?;
-configurable string fhirServerCertPath = ?;
 
-final http:Client sourceEpClient;
+final http:Client sourceEpClient = check new (sourceEpHost);
 
 # A service representing a network-accessible API
 # bound to port `9091`.
 service / on new http:Listener(9091) {
-
-    function init() returns error? {
-        if (clientId != "" && clientSecret != "" && tokenUrl != "") {
-            sourceEpClient = check new (sourceEpHost,
-                auth = {
-                    tokenUrl: tokenUrl,
-                    clientId: clientId,
-                    clientSecret: clientSecret,
-                    clientConfig: {
-                        secureSocket: {
-                            cert: authServerCertPath
-                        }
-                    }
-                },
-                secureSocket = {
-                    cert: fhirServerCertPath
-                }
-            );
-        } else {
-            sourceEpClient = check new (sourceEpHost);
-        }
-    }
 
     # Resource for proxying metadata endpoint. This resource will be unsecured endpoint.
     #

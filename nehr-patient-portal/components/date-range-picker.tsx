@@ -35,7 +35,7 @@ export const DateRangePicker = ({ className }: { className?: string }) => {
       showOutsideDays
       className={cn("border p-4 rounded-md text-sm", className)}
       mode="range"
-      captionLayout="dropdown"
+      captionLayout="dropdown-buttons"
       fromYear={1900}
       toYear={2025}
       footer={

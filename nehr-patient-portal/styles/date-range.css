@@ -5,3 +5,7 @@
 .rdp-caption_label {
   @apply text-slate-900 text-base font-semibold;
 }
+
+.rdp-nav_button {
+  @apply scale-75;
+}

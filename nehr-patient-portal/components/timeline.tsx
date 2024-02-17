@@ -64,7 +64,7 @@ const Milestone = ({
 
       <div
         className={cn(
-          "w-80 border border-slate-200 rounded-lg px-4 py-3 cursor-pointer hover:ring-4 hover:ring-slate-200 hover:bg-slate-50 transition-all",
+          "w-full border border-slate-200 rounded-lg px-4 py-3 cursor-pointer hover:ring-4 hover:ring-slate-200 hover:bg-slate-50 transition-all",
           !last && "mb-5"
         )}>
         <p className="mb-1 font-medium">{milestone.institution}</p>

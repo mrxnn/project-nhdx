@@ -1,3 +1,4 @@
+import { DateRangePicker } from "@/components/date-range-picker";
 import {
   Timeline,
   type Milestone,
@@ -6,7 +7,7 @@ import {
 
 export const MedicalHistoryTimeline = () => {
   return (
-    <div className="flex mt-10 gap-x-24 border border-slate-200 rounded-lg p-7">
+    <div className="flex mt-10  border border-slate-200 rounded-lg p-7">
       <div className="space-y-2">
         {encounterTypes.map((type, idx) => (
           <div className="accent-blue-500 space-x-2" key={idx}>
@@ -18,7 +19,7 @@ export const MedicalHistoryTimeline = () => {
         ))}
       </div>
 
-      <Timeline>
+      <Timeline className="flex-1 ml-24 mr-8">
         {data.map((milestone, idx) => (
           <Timeline.Milestone
             key={idx}
@@ -28,10 +29,8 @@ export const MedicalHistoryTimeline = () => {
         ))}
       </Timeline>
 
-      <div className="ml-auto">
-        <p className="font-mono text-xs uppercase bg-slate-500 text-white p-2 rounded">
-          Date Range Picker
-        </p>
+      <div className="">
+        <DateRangePicker />
       </div>
     </div>
   );

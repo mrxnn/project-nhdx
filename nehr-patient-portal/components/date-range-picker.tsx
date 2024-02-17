@@ -33,7 +33,10 @@ export const DateRangePicker = ({ className }: { className?: string }) => {
     <DayPicker
       ISOWeek
       showOutsideDays
-      className={cn("border p-4 rounded-md -translate-y-4 text-sm", className)}
+      className={cn(
+        "border p-4 rounded-md -translate-y-4 translate-x-4 text-sm",
+        className
+      )}
       mode="range"
       captionLayout="dropdown"
       fromYear={1900}

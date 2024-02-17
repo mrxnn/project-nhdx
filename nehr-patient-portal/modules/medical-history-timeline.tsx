@@ -7,7 +7,7 @@ import {
 
 export const MedicalHistoryTimeline = () => {
   return (
-    <div className="flex mt-10 border border-slate-200 rounded-lg p-7">
+    <div className="flex">
       <div className="space-y-2.5">
         {encounterTypes.map((type, idx) => (
           <div className="flex items-center accent-blue-600" key={idx}>

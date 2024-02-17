@@ -59,7 +59,7 @@ const Milestone = ({
           }}>
           <LuLandmark size={16} />
         </div>
-        {!last && <div className="w-0.5 bg-slate-200 flex-1" />}
+        {!last && <div className="w-px bg-slate-200 flex-1" />}
       </div>
 
       <div

@@ -7,12 +7,18 @@ import {
 
 export const MedicalHistoryTimeline = () => {
   return (
-    <div className="flex mt-10  border border-slate-200 rounded-lg p-7">
-      <div className="space-y-2">
+    <div className="flex mt-10 border border-slate-200 rounded-lg p-7">
+      <div className="space-y-2.5">
         {encounterTypes.map((type, idx) => (
-          <div className="accent-blue-500 space-x-2" key={idx}>
-            <input type="checkbox" id={type} className="cursor-pointer" />
-            <label htmlFor={type} className="text-sm cursor-pointer">
+          <div className="flex items-center accent-blue-600" key={idx}>
+            <input
+              id={`filter-${type}`}
+              type="checkbox"
+              className="h-4 w-4 rounded border-slate-300 cursor-pointer"
+            />
+            <label
+              htmlFor={`filter-${type}`}
+              className="ml-3 min-w-0 flex-1 text-slate-600 text-sm font-medium cursor-pointer">
               {type}
             </label>
           </div>
@@ -29,9 +35,7 @@ export const MedicalHistoryTimeline = () => {
         ))}
       </Timeline>
 
-      <div className="">
-        <DateRangePicker />
-      </div>
+      <DateRangePicker className="self-start" />
     </div>
   );
 };
@@ -40,7 +44,7 @@ export const MedicalHistoryTimeline = () => {
 const data: Milestone[] = [
   {
     id: "1234",
-    institution: "Asiri Surgical Hospital",
+    institution: "Sri Jayawardanepura Hospital",
     date: "2023-01-10",
     time: "14:31",
     encounterType: "OPD Encounters",
@@ -54,7 +58,7 @@ const data: Milestone[] = [
   },
   {
     id: "1234",
-    institution: "Asiri Central Hospital",
+    institution: "Asiri Central Hospital, Narahenpita",
     date: "2023-01-10",
     time: "14:31",
     encounterType: "Appoinments",
@@ -68,7 +72,7 @@ const data: Milestone[] = [
   },
   {
     id: "1234",
-    institution: "Asiri Surgical Hospital",
+    institution: "Asiri Surgical Hospital, Kirimandala",
     date: "2023-01-10",
     time: "14:31",
     encounterType: "OPD Encounters",

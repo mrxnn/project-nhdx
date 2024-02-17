@@ -1,3 +1,7 @@
+.rdp {
+  @apply m-0;
+}
+
 .rdp-caption_label {
   @apply text-slate-900 text-base font-semibold;
 }

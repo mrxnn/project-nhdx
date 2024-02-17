@@ -4,9 +4,9 @@ import React, { useState } from "react";
 
 import { format } from "date-fns";
 import { DateRange, DayPicker } from "react-day-picker";
+import { cn } from "@/lib/utils";
 import "react-day-picker/dist/style.css";
 import "../styles/date-range.css";
-import { cn } from "@/lib/utils";
 
 export const DateRangePicker = ({ className }: { className?: string }) => {
   const defaultSelected: DateRange = {
@@ -33,10 +33,7 @@ export const DateRangePicker = ({ className }: { className?: string }) => {
     <DayPicker
       ISOWeek
       showOutsideDays
-      className={cn(
-        "border p-4 rounded-md -translate-y-4 translate-x-4 text-sm",
-        className
-      )}
+      className={cn("border p-4 rounded-md text-sm", className)}
       mode="range"
       captionLayout="dropdown"
       fromYear={1900}

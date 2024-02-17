@@ -5,22 +5,22 @@ import { ReactNode } from "react";
 import { LuLandmark, LuChevronRight } from "react-icons/lu";
 
 export const encounterTypes = [
-  "OPD Encounters",
-  "Admission Summery",
+  "Admissions",
   "HCL Screening",
   "Lab Reports",
   "Appoinments",
+  "OPD Encounters",
   "Vaccinations",
 ] as const;
 
 type EncounterType = (typeof encounterTypes)[number];
 
 const EncounterTypeColors: Record<EncounterType, string> = {
-  "OPD Encounters": "#10b981",
-  "Admission Summery": "#eab308",
+  Admissions: "#eab308",
   "HCL Screening": "#ef4444",
   "Lab Reports": "#06b6d4",
   Appoinments: "#3b82f6",
+  "OPD Encounters": "#10b981",
   Vaccinations: "#d946ef",
 };
 
@@ -69,7 +69,7 @@ const Milestone = ({
         )}>
         <p className="mb-1 font-medium">{milestone.institution}</p>
         <div className="flex items-center text-sm gap-x-2 mb-1">
-          <div className="flex items-center gap-x-0.5 text-slate-500">
+          <div className="flex items-center gap-x-0.5 text-slate-600">
             <p>{milestone.date},</p>
             <p>{milestone.time}</p>
           </div>
@@ -80,10 +80,10 @@ const Milestone = ({
             }}
           />
           <div className="flex items-center gap-x-0.5">
-            <p className="text-slate-500">{milestone.encounterType}</p>
+            <p className="text-slate-600">{milestone.encounterType}</p>
           </div>
         </div>
-        <p className="font-mono">#{milestone.id}</p>
+        <p className="text-sm text-slate-600">#{milestone.id}</p>
       </div>
     </div>
   );

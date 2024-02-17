@@ -12,13 +12,14 @@ export const MedicalHistoryTimeline = () => {
         {encounterTypes.map((type, idx) => (
           <div className="flex items-center accent-blue-600" key={idx}>
             <input
+              checked
               id={`filter-${type}`}
               type="checkbox"
               className="h-4 w-4 rounded border-slate-300 cursor-pointer"
             />
             <label
               htmlFor={`filter-${type}`}
-              className="ml-3 min-w-0 flex-1 text-slate-600 text-sm font-medium cursor-pointer">
+              className="ml-3 min-w-0 flex-1 text-slate-600 text-sm cursor-pointer">
               {type}
             </label>
           </div>

@@ -18,7 +18,7 @@ export const RecordHome = () => {
         <OverviewCard title={t("allergies")} value="2" lastMonthValue="1" />
       </div>
 
-      <div className="mt-12 mb-8 gap-x-4 flex items-center">
+      <div className="my-8 gap-x-4 flex items-center">
         <h1 className="font-bold text-lg">Medical History</h1>
         <Separator className="flex-1" />
       </div>

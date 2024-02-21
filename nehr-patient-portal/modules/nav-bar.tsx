@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { UserSignOut } from "@/components/user-sign-out";
+import { AvatarMenu } from "@/modules/avatar-menu";
 
 export const NavBar = () => {
   const { status } = useSession();
@@ -23,7 +24,7 @@ export const NavBar = () => {
         <div className="hidden md:flex items-center ml-auto gap-6 text-slate-500 text-base">
           <NavbarLinks />
           <LanguageSelector />
-          {status === "authenticated" && <UserSignOut />}
+          {status === "authenticated" && <AvatarMenu />}
         </div>
         <div className="flex md:hidden ml-auto">
           <Sheet>

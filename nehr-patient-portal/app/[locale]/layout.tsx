@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { NextAuthProvider } from "@/contexts/auth-provider";
+import { ReactQueryProvider } from "@/contexts/react-query-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,7 +22,9 @@ export default async function RootLayout({
     <html>
       <body className={inter.className}>
         <div className="min-h-screen">
-          <NextAuthProvider>{children}</NextAuthProvider>
+          <NextAuthProvider>
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+          </NextAuthProvider>
         </div>
       </body>
     </html>

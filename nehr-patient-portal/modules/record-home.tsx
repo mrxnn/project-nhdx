@@ -4,7 +4,7 @@ import { OverviewCard } from "@/components/overview-card";
 import { DASHBOARD } from "@/locales/namespaces";
 import { useTranslation } from "react-i18next";
 import { MedicalHistoryTimeline } from "./medical-history-timeline";
-import { Separator } from "@/components/ui/separator";
+import { TitleSeparator } from "@/components/title-separator";
 
 export const RecordHome = () => {
   const { t } = useTranslation(DASHBOARD);
@@ -18,10 +18,7 @@ export const RecordHome = () => {
         <OverviewCard title={t("allergies")} value="2" lastMonthValue="1" />
       </div>
 
-      <div className="mt-12 gap-x-4 flex items-center">
-        <h1 className="font-bold text-lg">{t("medicalHistory")}</h1>
-        <Separator className="flex-1" />
-      </div>
+      <TitleSeparator title={t("medicalHistory")} />
 
       <MedicalHistoryTimeline />
     </>

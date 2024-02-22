@@ -21,7 +21,7 @@ export const MedicalHistoryTimeline = () => {
       </p>
 
       <div className="flex">
-        <div className="space-y-2.5">
+        <div className="space-y-2.5 hidden lg:block">
           {encounters.map((encounter, idx) => (
             <div className="items-center flex space-x-2 select-none" key={idx}>
               <Checkbox id={encounter.name} />
@@ -34,7 +34,7 @@ export const MedicalHistoryTimeline = () => {
           ))}
         </div>
 
-        <Timeline className="flex-1 ml-24 mr-8">
+        <Timeline className="flex-1 lg:ml-20 md:mr-4 lg:mr-8">
           {data.map((milestone, idx) => (
             <Timeline.Milestone
               key={idx}
@@ -45,7 +45,7 @@ export const MedicalHistoryTimeline = () => {
         </Timeline>
 
         <DateRangePicker
-          className="self-start"
+          className="self-start hidden md:block"
           value={dateRange}
           onChange={setDateRange}
         />

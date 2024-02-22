@@ -1,29 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
-
 import { format } from "date-fns";
 import { DateRange, DayPicker } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import "react-day-picker/dist/style.css";
 import "../styles/date-range.css";
 
-export const DateRangePicker = ({ className }: { className?: string }) => {
-  const defaultSelected: DateRange = {
-    from: undefined,
-    to: undefined,
-  };
+type Props = {
+  value: DateRange | undefined;
+  onChange: (range: DateRange | undefined) => void;
+  className?: string;
+};
 
-  const [range, setRange] = useState<DateRange | undefined>(defaultSelected);
-
+export const DateRangePicker = ({ onChange, value, className }: Props) => {
   let footer = <p>Please pick the first day.</p>;
-  if (range?.from) {
-    if (!range.to) {
-      footer = <p>{format(range.from, "PPP")}</p>;
-    } else if (range.to) {
+  if (value?.from) {
+    if (!value.to) {
+      footer = <p>{format(value.from, "PPP")}</p>;
+    } else if (value.to) {
       footer = (
         <p>
-          {format(range.from, "PP")} &mdash; {format(range.to, "PP")}
+          {format(value.from, "PP")} &mdash; {format(value.to, "PP")}
         </p>
       );
     }
@@ -43,8 +40,8 @@ export const DateRangePicker = ({ className }: { className?: string }) => {
           {footer}
         </div>
       }
-      selected={range}
-      onSelect={setRange}
+      selected={value}
+      onSelect={onChange}
     />
   );
 };

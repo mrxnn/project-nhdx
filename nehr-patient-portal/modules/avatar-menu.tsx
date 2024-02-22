@@ -52,9 +52,9 @@ export const AvatarMenu = () => {
           {isLoading || isError ? "..." : initials}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" sideOffset={12}>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel>{t("myAccount")}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuItem>{t("settings")}</DropdownMenuItem>
           <DropdownMenuItem onSelect={() => signOut()}>
             {t("signOut")}
           </DropdownMenuItem>
@@ -62,7 +62,7 @@ export const AvatarMenu = () => {
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <LuUsers strokeWidth={2.5} />
-              <span className="ml-2 mr-8">Switch Profile</span>
+              <span className="ml-2 mr-8">{t("switchProfile")}</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>

@@ -32,12 +32,12 @@ export default async function Dashboard({
       <motion.div
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col w-full my-8 max-w-6xl mx-auto px-4">
+        className="flex flex-col w-full my-8 max-w-6xl mx-auto px-4 overflow-x-hidden">
         <Tabs defaultValue="record-home">
           <TabsList>
             <DashboardTabList />
           </TabsList>
-          <div className="mt-9">
+          <div className="mt-5 md:mt-8">
             <TabsContent value="record-home">
               <RecordHome />
             </TabsContent>

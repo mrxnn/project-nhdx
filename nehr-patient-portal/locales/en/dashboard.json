@@ -19,5 +19,6 @@
   "linkedPHNs": "Linked PHNs",
   "male": "Male",
   "female": "Female",
-  "other": "Other"
+  "other": "Other",
+  "medicalHistory": "Medical History"
 }

@@ -2,26 +2,11 @@
 
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
-import { LuLandmark, LuChevronRight } from "react-icons/lu";
+import { LuLandmark } from "react-icons/lu";
 
-export const encounterTypes = [
-  "Admissions",
-  "HCL Screening",
-  "Lab Reports",
-  "Appoinments",
-  "OPD Encounters",
-  "Vaccinations",
-] as const;
-
-type EncounterType = (typeof encounterTypes)[number];
-
-const EncounterTypeColors: Record<EncounterType, string> = {
-  Admissions: "#eab308",
-  "HCL Screening": "#ef4444",
-  "Lab Reports": "#06b6d4",
-  Appoinments: "#3b82f6",
-  "OPD Encounters": "#10b981",
-  Vaccinations: "#d946ef",
+type Encounter = {
+  name: string;
+  color: string;
 };
 
 export type Milestone = {
@@ -29,7 +14,7 @@ export type Milestone = {
   institution: string;
   date: string;
   time: string;
-  encounterType: EncounterType;
+  encounter: Encounter;
 };
 
 export const Timeline = ({
@@ -55,7 +40,7 @@ const Milestone = ({
         <div
           className="w-7 h-7 flex justify-center items-center rounded-full text-white"
           style={{
-            backgroundColor: EncounterTypeColors[milestone.encounterType],
+            backgroundColor: milestone.encounter.color,
           }}>
           <LuLandmark size={16} />
         </div>
@@ -76,11 +61,11 @@ const Milestone = ({
           <div
             className="w-1.5 aspect-square rounded-full -translate-y-[0.7px]"
             style={{
-              backgroundColor: EncounterTypeColors[milestone.encounterType],
+              backgroundColor: milestone.encounter.color,
             }}
           />
           <div className="flex items-center gap-x-0.5">
-            <p className="text-slate-600">{milestone.encounterType}</p>
+            <p className="text-slate-600">{milestone.encounter.name}</p>
           </div>
         </div>
         <p className="text-sm text-slate-600">#{milestone.id}</p>

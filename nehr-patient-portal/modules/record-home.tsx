@@ -18,8 +18,8 @@ export const RecordHome = () => {
         <OverviewCard title={t("allergies")} value="2" lastMonthValue="1" />
       </div>
 
-      <div className="mt-8 gap-x-4 flex items-center">
-        <h1 className="font-bold text-lg">Medical History</h1>
+      <div className="mt-12 gap-x-4 flex items-center">
+        <h1 className="font-bold text-lg">{t("medicalHistory")}</h1>
         <Separator className="flex-1" />
       </div>
 

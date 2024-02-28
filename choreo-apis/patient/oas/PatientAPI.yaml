@@ -102,6 +102,28 @@ paths:
       security:
       - default: []
       x-auth-type: Application & Application User
+  /fhir/r4/Patient/{id}/$summary:
+    get:
+      tags:
+      - GET
+      - Patient Summary
+      parameters:
+      - name: id
+        in: path
+        description: logical identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Patient $summary operation successful
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/Bundle'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
 components:
   schemas:
     Resource:

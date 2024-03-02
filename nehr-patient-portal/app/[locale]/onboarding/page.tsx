@@ -1,5 +1,8 @@
+"use client";
+
 import { Grid } from "./grid";
 import { PageParams } from "@/lib/types";
+import { Stepper } from "@/components/stepper";
 import { PHNForm } from "./steps/phn-form";
 import { DemographicsForm } from "./steps/demographics-form";
 import { IdentifiersForm } from "./steps/identifiers-form";
@@ -7,16 +10,14 @@ import { ContactDetailsForm } from "./steps/contact-details-form";
 import { WorkAndEducationForm } from "./steps/work-and-education-form";
 import { EmergencyContactForm } from "./steps/emergency-contact-form";
 import { PHNCard } from "./steps/phn-card";
-import { Stepper } from "@/components/stepper";
+import { useGlobalStore } from "@/lib/store";
 
-export default async function OnboardingPage({ searchParams }: PageParams) {
+export default function OnboardingPage({ searchParams }: PageParams) {
   if (!searchParams.step) throw new Error("Missing step param in URL");
   if (Array.isArray(searchParams.step)) throw new Error("Mutiple steps in URL");
+  const isLastStep = searchParams.step === "7";
 
-  let isLastStep = false;
-  if (searchParams.step === "phn-card") {
-    isLastStep = true;
-  }
+  const formData = useGlobalStore((s) => s.onboardingFormData);
 
   return (
     <Grid>
@@ -31,64 +32,27 @@ export default async function OnboardingPage({ searchParams }: PageParams) {
           </p>
         )}
         {isLastStep || (
-          <Stepper
-            stepCount={6}
-            activeStep={getStep(searchParams.step).id}
-            className="mt-10"
-          />
+          <>
+            <Stepper
+              stepCount={6}
+              activeStep={Number(searchParams.step)}
+              className="mt-10"
+            />
+            <pre>{JSON.stringify(formData, null, 2)}</pre>
+          </>
         )}
       </Grid.Left>
-
-      <Grid.Right>{getStep(searchParams.step).component}</Grid.Right>
+      <Grid.Right>{steps[searchParams.step as "1"]}</Grid.Right>
     </Grid>
   );
 }
 
-const getStep = (stepName: string) => {
-  let idx = 1;
-  let component = <div />;
-
-  switch (stepName) {
-    case "phn-form":
-      idx = 1;
-      component = <PHNForm />;
-      break;
-
-    case "demographics-form":
-      idx = 2;
-      component = <DemographicsForm />;
-      break;
-
-    case "identifiers-form":
-      idx = 3;
-      component = <IdentifiersForm />;
-      break;
-
-    case "contact-details-form":
-      idx = 4;
-      component = <ContactDetailsForm />;
-      break;
-
-    case "work-and-education-form":
-      idx = 5;
-      component = <WorkAndEducationForm />;
-      break;
-
-    case "emergency-contact-form":
-      idx = 6;
-      component = <EmergencyContactForm />;
-      break;
-
-    case "phn-card":
-      component = <PHNCard />;
-      break;
-
-    default:
-      throw new Error("Unknown Step");
-  }
-
-  return {
-    id: idx,
-    component,
-  };
+const steps = {
+  1: <PHNForm />,
+  2: <DemographicsForm />,
+  3: <IdentifiersForm />,
+  4: <ContactDetailsForm />,
+  5: <WorkAndEducationForm />,
+  6: <EmergencyContactForm />,
+  7: <PHNCard />,
 };

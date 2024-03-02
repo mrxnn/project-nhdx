@@ -1,23 +1,51 @@
-import Link from "next/link";
+"use client";
+
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PlusIcon } from "lucide-react";
+import { useGlobalStore } from "@/lib/store";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export const PHNForm = ({ onSubmit }: { onSubmit?: (value: any) => void }) => {
+const formSchema = z.object({
+  phn: z.string().length(6),
+});
+
+export const PHNForm = () => {
+  const router = useRouter();
+  const { onboardingFormData, setOnboardingFormData } = useGlobalStore();
+  const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    setOnboardingFormData({
+      ...onboardingFormData,
+      ...values,
+    });
+
+    router.push("?step=2");
+  };
+
   return (
     <div className="divide-y">
-      <div className="pb-12">
+      <form className="pb-12" onSubmit={handleSubmit(onSubmit)}>
         <p className="font-bold text-3xl mb-2 tracking-tight">
           Already have a PHN
         </p>
         <p className="text-slate-500 mb-3">
           Enter your personal healthcare number if you already have one
         </p>
-        <Input type="text" placeholder="Eg: 123456" className="mb-4" />
-        <Button asChild>
-          <Link href="?step=demographics-form">Continue</Link>
-        </Button>
-      </div>
+        <Input
+          type="text"
+          placeholder="Eg: 123456"
+          className="mb-4"
+          {...register("phn")}
+        />
+        <Button type="submit">Continue</Button>
+      </form>
 
       <div className="pt-10">
         <p className="font-bold text-3xl mb-2 tracking-tight">

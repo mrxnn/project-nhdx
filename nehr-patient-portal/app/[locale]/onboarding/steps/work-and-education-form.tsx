@@ -1,31 +1,68 @@
+"use client";
+
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronRight } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { useGlobalStore } from "@/lib/store";
+import { useRouter } from "next/navigation";
+
+const formSchema = z.object({
+  occupation: z.string(),
+  highestEducationLevel: z.string(),
+});
 
 export const WorkAndEducationForm = () => {
+  const router = useRouter();
+  const { onboardingFormData, setOnboardingFormData } = useGlobalStore();
+  const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    setOnboardingFormData({
+      ...onboardingFormData,
+      ...values,
+    });
+
+    router.push("?step=6");
+  };
+
   return (
     <div className="divide-y">
-      <div className="pb-12">
+      <form className="pb-12" onSubmit={handleSubmit(onSubmit)}>
         <p className="font-bold text-3xl tracking-tight mb-7">
           Work & Education
         </p>
         <div className="space-y-2 mb-4">
-          <label htmlFor="name" className="text-sm font-bold">
+          <label htmlFor="occupation" className="text-sm font-bold">
             Occupation
           </label>
-          <Input type="text" placeholder="Eg: John Doe" />
+          <Input
+            type="text"
+            id="occupation"
+            placeholder="Eg: John Doe"
+            {...register("occupation")}
+          />
         </div>
         <div className="space-y-2 mb-4">
-          <label htmlFor="name" className="text-sm font-bold">
+          <label htmlFor="highestEducationLevel" className="text-sm font-bold">
             Highest Education Level
           </label>
-          <Input type="text" placeholder="Select" />
+          <Input
+            type="text"
+            id="highestEducationLevel"
+            placeholder="Select"
+            {...register("highestEducationLevel")}
+          />
         </div>
-        <Button className="space-x-2">
+        <Button className="space-x-2" type="submit">
           <span>Continue</span>
           <ChevronRight size={18} />
         </Button>
-      </div>
+      </form>
     </div>
   );
 };

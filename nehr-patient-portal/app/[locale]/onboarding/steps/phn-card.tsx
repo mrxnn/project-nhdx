@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 export const PHNCard = () => {
   return (
@@ -15,9 +16,11 @@ export const PHNCard = () => {
           Explain what the PHN is and how it is used for, and some info about
           the artwork.
         </p>
-        <Button className="space-x-2">
-          <span>Go to dashboard</span>
-          <ChevronRight size={18} />
+        <Button className="space-x-2" asChild>
+          <Link href="/dashboard">
+            <span>Go to dashboard</span>
+            <ChevronRight size={18} />
+          </Link>
         </Button>
       </div>
     </div>

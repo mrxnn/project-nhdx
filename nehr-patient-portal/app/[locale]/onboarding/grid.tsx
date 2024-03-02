@@ -18,8 +18,8 @@ export const Grid = (props: { children: ReactNode }) => {
 
 export const LeftSlice = ({ children }: { children: ReactNode }) => children;
 const RightSlice = ({ children }: { children: ReactNode }) => children;
-Grid.LeftSlice = LeftSlice;
-Grid.RightSlice = RightSlice;
+Grid.Left = LeftSlice;
+Grid.Right = RightSlice;
 
 const useNamedBlocks = function (children: any) {
   const arr = React.Children.toArray(children);

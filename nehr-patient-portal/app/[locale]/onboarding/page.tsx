@@ -10,16 +10,18 @@ import { WorkAndEducationForm } from "./steps/work-and-education-form";
 import { EmergencyContactForm } from "./steps/emergency-contact-form";
 import { PHNCard } from "./steps/phn-card";
 import { useGlobalStore } from "@/lib/store";
+import { useScopedI18n } from "@/locales/client";
 
 export default function OnboardingPage() {
   const { onboardingStep } = useGlobalStore();
   const isLastStep = onboardingStep === 7;
+  const t = useScopedI18n("Onboarding");
 
   return (
     <Grid>
       <Grid.Left>
         <p className="text-5xl font-bold tracking-tighter">
-          {isLastStep ? "Welcome to NEHR" : "Setting up the patient portal"}
+          {isLastStep ? "Welcome to NEHR" : t("title")}
         </p>
         {isLastStep && (
           <p className="text-slate-500 mt-4">

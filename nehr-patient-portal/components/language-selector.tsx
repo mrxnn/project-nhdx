@@ -10,12 +10,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useChangeLocale, useCurrentLocale } from "@/locales/client";
 
 export const LanguageSelector = () => {
-  const handleChange = (newLocale: string) => {};
+  const currentLocale = useCurrentLocale();
+  const changeLocale = useChangeLocale();
+  const handleChange = (newLocale: "en" | "si" | "ta") =>
+    changeLocale(newLocale);
 
   return (
-    <Select defaultValue="en" onValueChange={handleChange} value="en">
+    <Select
+      defaultValue="en"
+      onValueChange={handleChange}
+      value={currentLocale}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select a Language" />
       </SelectTrigger>

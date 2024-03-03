@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { NextAuthProvider } from "@/contexts/auth-provider";
 import { ReactQueryProvider } from "@/contexts/react-query-provider";
+import { I18nProviderClient } from "@/locales/client";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,15 +16,21 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
+  params: { locale },
 }: {
   children: React.ReactNode;
+  params: { locale: string };
 }) {
   return (
     <html>
       <body className={inter.className}>
         <div className="min-h-screen">
           <NextAuthProvider>
-            <ReactQueryProvider>{children}</ReactQueryProvider>
+            <ReactQueryProvider>
+              <I18nProviderClient locale={locale}>
+                {children}
+              </I18nProviderClient>
+            </ReactQueryProvider>
           </NextAuthProvider>
         </div>
       </body>

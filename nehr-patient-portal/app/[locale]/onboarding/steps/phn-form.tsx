@@ -12,15 +12,16 @@ const formSchema = z.object({
   phn: z.string().length(6),
 });
 
+type formState = z.infer<typeof formSchema>;
+
 export const PHNForm = () => {
   const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
     useGlobalStore();
-
-  const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
+  const { register, handleSubmit } = useForm<formState>({
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: formState) => {
     setOnboardingFormData({
       ...onboardingFormData,
       ...values,

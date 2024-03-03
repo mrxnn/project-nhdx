@@ -6,25 +6,26 @@ import { Input } from "@/components/ui/input";
 import { useGlobalStore } from "@/lib/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { phoneRegex } from "@/lib/utils";
 
 const formSchema = z.object({
-  phone: z.string(),
+  phone: z.string().regex(phoneRegex).min(10),
   email: z.string().email(),
-  address: z.string(),
-  gramaNiladariDivision: z.string(),
+  address: z.string().min(2).max(200),
+  gramaNiladariDivision: z.string().min(2).max(50),
 });
 
+type formState = z.infer<typeof formSchema>;
+
 export const ContactDetailsForm = () => {
-  const router = useRouter();
   const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
     useGlobalStore();
-  const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
+  const { register, handleSubmit } = useForm<formState>({
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: formState) => {
     setOnboardingFormData({
       ...onboardingFormData,
       ...values,
@@ -47,7 +48,7 @@ export const ContactDetailsForm = () => {
               autoFocus
               type="text"
               id="phone"
-              placeholder="Eg: John Doe"
+              placeholder="Eg: 0713456789"
               {...register("phone")}
             />
           </div>
@@ -58,7 +59,7 @@ export const ContactDetailsForm = () => {
             <Input
               type="email"
               id="email"
-              placeholder="Select"
+              placeholder="Eg: yourmail@mail.com"
               {...register("email")}
             />
           </div>
@@ -69,7 +70,7 @@ export const ContactDetailsForm = () => {
             <Input
               type="text"
               id="address"
-              placeholder="Select"
+              placeholder="Eg: 123 Rd, Colombo"
               {...register("address")}
             />
           </div>
@@ -82,7 +83,7 @@ export const ContactDetailsForm = () => {
             <Input
               type="text"
               id="gramaNiladariDivision"
-              placeholder="Select"
+              placeholder="Eg: Pettah"
               {...register("gramaNiladariDivision")}
             />
           </div>

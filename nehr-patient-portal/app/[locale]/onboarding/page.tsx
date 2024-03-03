@@ -12,7 +12,7 @@ import { PHNCard } from "./steps/phn-card";
 import { useGlobalStore } from "@/lib/store";
 
 export default function OnboardingPage() {
-  const { onboardingStep, onboardingFormData: formData } = useGlobalStore();
+  const { onboardingStep } = useGlobalStore();
   const isLastStep = onboardingStep === 7;
 
   return (
@@ -28,14 +28,11 @@ export default function OnboardingPage() {
           </p>
         )}
         {isLastStep || (
-          <>
-            <Stepper
-              stepCount={6}
-              activeStep={onboardingStep}
-              className="mt-10"
-            />
-            <pre>{JSON.stringify(formData, null, 2)}</pre>
-          </>
+          <Stepper
+            stepCount={6}
+            activeStep={onboardingStep}
+            className="mt-10"
+          />
         )}
       </Grid.Left>
       <Grid.Right>{steps[onboardingStep as 1]}</Grid.Right>

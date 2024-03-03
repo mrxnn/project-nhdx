@@ -9,22 +9,22 @@ import { ChevronRight } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 const formSchema = z.object({
-  NIC: z.string(),
-  passportNo: z.string(),
-  drivingLicenseNo: z.string(),
-  seniorCitizenNo: z.string(),
+  NIC: z.string().min(10).max(12),
+  passportNo: z.string().optional(),
+  drivingLicenseNo: z.string().optional(),
+  seniorCitizenNo: z.string().optional(),
 });
+
+type formState = z.infer<typeof formSchema>;
 
 export const IdentifiersForm = () => {
   const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
     useGlobalStore();
-
-  const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
+  const { register, handleSubmit } = useForm<formState>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: formState) => {
     setOnboardingFormData({
       ...onboardingFormData,
       ...values,

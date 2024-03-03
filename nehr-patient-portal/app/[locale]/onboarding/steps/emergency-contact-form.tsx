@@ -6,24 +6,39 @@ import { Input } from "@/components/ui/input";
 import { useGlobalStore } from "@/lib/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRight } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { phoneRegex } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
-  emergencyContactName: z.string(),
-  emergencyContactAddress: z.string(),
-  emergencyContactPhone: z.string(),
-  emergencyContactRelationship: z.string(),
+  emergencyContactName: z.string().min(2).max(50),
+  emergencyContactAddress: z.string().min(2).max(200),
+  emergencyContactPhone: z.string().regex(phoneRegex).min(10),
+  emergencyContactRelationship: z.enum([
+    "father",
+    "mother",
+    "sibling",
+    "spouse",
+    "other",
+  ]),
 });
+
+type formState = z.infer<typeof formSchema>;
 
 export const EmergencyContactForm = () => {
   const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
     useGlobalStore();
-
-  const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
+  const { register, handleSubmit, control } = useForm<formState>({
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: formState) => {
     setOnboardingFormData({
       ...onboardingFormData,
       ...values,
@@ -41,48 +56,66 @@ export const EmergencyContactForm = () => {
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="name" className="text-sm font-bold">
+            <label htmlFor="emergencyContactName" className="text-sm font-bold">
               Name
             </label>
             <Input
               autoFocus
               type="text"
-              id="name"
+              id="emergencyContactName"
               placeholder="Eg: John Doe"
               {...register("emergencyContactName")}
             />
           </div>
           <div className="space-y-2">
-            <label htmlFor="address" className="text-sm font-bold">
+            <label
+              htmlFor="emergencyContactAddress"
+              className="text-sm font-bold">
               Address
             </label>
             <Input
               type="text"
-              id="address"
-              placeholder="Select"
+              id="emergencyContactAddress"
+              placeholder="Eg: 123 Rd, Colombo"
               {...register("emergencyContactAddress")}
             />
           </div>
           <div className="space-y-2">
-            <label htmlFor="phone" className="text-sm font-bold">
+            <label
+              htmlFor="emergencyContactPhone"
+              className="text-sm font-bold">
               Phone
             </label>
             <Input
               type="text"
-              id="phone"
-              placeholder="Select"
+              id="emergencyContactPhone"
+              placeholder="Eg: 0713456789"
               {...register("emergencyContactPhone")}
             />
           </div>
           <div className="space-y-2">
-            <label htmlFor="relationship" className="text-sm font-bold">
+            <label
+              htmlFor="emergencyContactRelationship"
+              className="text-sm font-bold">
               Relationship
             </label>
-            <Input
-              type="text"
-              id="relationship"
-              placeholder="Select"
-              {...register("emergencyContactRelationship")}
+            <Controller
+              control={control}
+              name="emergencyContactRelationship"
+              render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger tabIndex={0} ref={field.ref}>
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="father">Father</SelectItem>
+                    <SelectItem value="mother">Mother</SelectItem>
+                    <SelectItem value="sibling">Sibling</SelectItem>
+                    <SelectItem value="spouse">Spouse</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
             />
           </div>
         </div>

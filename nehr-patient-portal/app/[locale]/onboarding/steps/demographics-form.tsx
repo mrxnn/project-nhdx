@@ -28,7 +28,6 @@ type formState = z.infer<typeof formSchema>;
 export const DemographicsForm = () => {
   const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
     useGlobalStore();
-
   const { register, handleSubmit, control } = useForm<formState>({
     resolver: zodResolver(formSchema),
   });

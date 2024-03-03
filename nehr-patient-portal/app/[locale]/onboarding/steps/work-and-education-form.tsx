@@ -5,23 +5,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronRight } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useGlobalStore } from "@/lib/store";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
-  occupation: z.string(),
-  highestEducationLevel: z.string(),
+  occupation: z.string().min(2).max(50),
+  highestEducationLevel: z.enum(["OL", "AL", "BSc", "MSc", "PHD", "other"]),
 });
+
+type formState = z.infer<typeof formSchema>;
 
 export const WorkAndEducationForm = () => {
   const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
     useGlobalStore();
-
-  const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
+  const { register, handleSubmit, control } = useForm<formState>({
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: formState) => {
     setOnboardingFormData({
       ...onboardingFormData,
       ...values,
@@ -44,7 +52,7 @@ export const WorkAndEducationForm = () => {
             autoFocus
             type="text"
             id="occupation"
-            placeholder="Eg: John Doe"
+            placeholder="Eg: Construction Worker"
             {...register("occupation")}
           />
         </div>
@@ -52,11 +60,24 @@ export const WorkAndEducationForm = () => {
           <label htmlFor="highestEducationLevel" className="text-sm font-bold">
             Highest Education Level
           </label>
-          <Input
-            type="text"
-            id="highestEducationLevel"
-            placeholder="Select"
-            {...register("highestEducationLevel")}
+          <Controller
+            control={control}
+            name="highestEducationLevel"
+            render={({ field }) => (
+              <Select onValueChange={field.onChange} value={field.value}>
+                <SelectTrigger tabIndex={0} ref={field.ref}>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="OL">OL</SelectItem>
+                  <SelectItem value="AL">AL</SelectItem>
+                  <SelectItem value="BSc">BSc</SelectItem>
+                  <SelectItem value="MSc">MSc</SelectItem>
+                  <SelectItem value="PHD">PHD</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
           />
         </div>
         <Button className="space-x-2" type="submit">

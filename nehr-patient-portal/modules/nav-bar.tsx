@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { UserSignOut } from "@/components/user-sign-out";
 import { AvatarMenu } from "@/modules/avatar-menu";
+import { Suspense } from "react";
 
 export const NavBar = () => {
   const { status } = useSession();
@@ -23,7 +24,9 @@ export const NavBar = () => {
         </Link>
         <div className="hidden md:flex items-center ml-auto gap-6 text-slate-500 text-base">
           <NavbarLinks />
-          <LanguageSelector />
+          <Suspense>
+            <LanguageSelector />
+          </Suspense>
           {status === "authenticated" && <AvatarMenu />}
         </div>
         <div className="flex md:hidden ml-auto">
@@ -38,7 +41,9 @@ export const NavBar = () => {
               <div className="grid gap-2 py-6 text-slate-500 text-base">
                 <UserSignOut />
                 <NavbarLinks />
-                <LanguageSelector />
+                <Suspense>
+                  <LanguageSelector />
+                </Suspense>
               </div>
             </SheetContent>
           </Sheet>

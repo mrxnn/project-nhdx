@@ -21,7 +21,7 @@ export default function OnboardingPage() {
     <Grid>
       <Grid.Left>
         <p className="text-5xl font-bold tracking-tighter">
-          {isLastStep ? "Welcome to NEHR" : t("title")}
+          {isLastStep ? t("welcome") : t("title")}
         </p>
         {isLastStep && (
           <p className="text-slate-500 mt-4">

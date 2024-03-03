@@ -14,7 +14,7 @@ import { useChangeLocale, useCurrentLocale } from "@/locales/client";
 
 export const LanguageSelector = () => {
   const currentLocale = useCurrentLocale();
-  const changeLocale = useChangeLocale();
+  const changeLocale = useChangeLocale({ preserveSearchParams: true });
   const handleChange = (newLocale: "en" | "si" | "ta") =>
     changeLocale(newLocale);
 

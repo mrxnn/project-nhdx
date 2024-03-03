@@ -47,7 +47,7 @@ export const AvatarMenu = () => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className="w-9 aspect-square rounded-full bg-black text-slate-50 text-sm font-bold tracking-tighter">
-          {isLoading || isError ? "..." : initials}
+          {isLoading || isError || Number.isNaN(initials) ? "..." : initials}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" sideOffset={12}>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>

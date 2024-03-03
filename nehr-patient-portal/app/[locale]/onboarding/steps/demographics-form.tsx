@@ -5,31 +5,35 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronRight } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useGlobalStore } from "@/lib/store";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
-  gender: z.enum(["Male", "Female"]),
-  maritalStatus: z.enum(["Single", "Married"]),
-  dateOfBirth: z.string().min(1),
-  nationality: z.string(),
+  gender: z.enum(["male", "female", "n/a"]),
+  maritalStatus: z.enum(["single", "married", "divorced", "widowed"]),
+  dateOfBirth: z.preprocess((args) => args ?? undefined, z.coerce.date()),
+  nationality: z.enum(["sri-lankan", "other"]),
 });
+
+type formState = z.infer<typeof formSchema>;
 
 export const DemographicsForm = () => {
   const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
     useGlobalStore();
 
-  const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
+  const { register, handleSubmit, control } = useForm<formState>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      gender: "Male",
-      maritalStatus: "Single",
-      nationality: "Sri Lankan",
-    },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: formState) => {
     setOnboardingFormData({
       ...onboardingFormData,
       ...values,
@@ -60,22 +64,43 @@ export const DemographicsForm = () => {
             <label htmlFor="gender" className="text-sm font-bold">
               Gender
             </label>
-            <Input
-              type="text"
-              id="gender"
-              placeholder="Select"
-              {...register("gender")}
+            <Controller
+              control={control}
+              name="gender"
+              render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger tabIndex={0} ref={field.ref}>
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
+                    <SelectItem value="n/a">Prefer not to say</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
             />
           </div>
           <div className="space-y-2">
             <label htmlFor="marital-status" className="text-sm font-bold">
               Marital Status
             </label>
-            <Input
-              type="text"
-              id="marital-status"
-              placeholder="Select"
-              {...register("maritalStatus")}
+            <Controller
+              control={control}
+              name="maritalStatus"
+              render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger tabIndex={0} ref={field.ref}>
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="single">Single</SelectItem>
+                    <SelectItem value="married">Married</SelectItem>
+                    <SelectItem value="divorced">Divorced</SelectItem>
+                    <SelectItem value="widowed">Widowed</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
             />
           </div>
           <div className="space-y-2">
@@ -83,7 +108,7 @@ export const DemographicsForm = () => {
               Date of Birth
             </label>
             <Input
-              type="text"
+              type="date"
               id="dob"
               placeholder="Select"
               {...register("dateOfBirth")}
@@ -93,16 +118,25 @@ export const DemographicsForm = () => {
             <label htmlFor="nationality" className="text-sm font-bold">
               Nationality
             </label>
-            <Input
-              type="text"
-              id="nationality"
-              placeholder="Select"
-              {...register("nationality")}
+            <Controller
+              control={control}
+              name="nationality"
+              render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger tabIndex={0} ref={field.ref}>
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="sri-lankan">Sri Lankan</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
             />
           </div>
         </div>
 
-        <Button className="space-x-2">
+        <Button className="space-x-2" type="submit">
           <span>Continue</span>
           <ChevronRight size={18} />
         </Button>

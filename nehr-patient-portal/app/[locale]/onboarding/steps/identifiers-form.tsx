@@ -1,13 +1,12 @@
 "use client";
 
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useGlobalStore } from "@/lib/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 const formSchema = z.object({
   NIC: z.string(),
@@ -17,8 +16,9 @@ const formSchema = z.object({
 });
 
 export const IdentifiersForm = () => {
-  const router = useRouter();
-  const { onboardingFormData, setOnboardingFormData } = useGlobalStore();
+  const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
+    useGlobalStore();
+
   const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {},
@@ -30,7 +30,7 @@ export const IdentifiersForm = () => {
       ...values,
     });
 
-    router.push("?step=4");
+    setOnboardingStep(4);
   };
 
   return (
@@ -44,6 +44,7 @@ export const IdentifiersForm = () => {
               National Id
             </label>
             <Input
+              autoFocus
               type="text"
               id="nic"
               placeholder="Eg: 199523456788"

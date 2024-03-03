@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { useGlobalStore } from "@/lib/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 const formSchema = z.object({
@@ -17,8 +16,9 @@ const formSchema = z.object({
 });
 
 export const EmergencyContactForm = () => {
-  const router = useRouter();
-  const { onboardingFormData, setOnboardingFormData } = useGlobalStore();
+  const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
+    useGlobalStore();
+
   const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -29,7 +29,7 @@ export const EmergencyContactForm = () => {
       ...values,
     });
 
-    router.push("?step=7");
+    setOnboardingStep(7);
   };
 
   return (
@@ -45,6 +45,7 @@ export const EmergencyContactForm = () => {
               Name
             </label>
             <Input
+              autoFocus
               type="text"
               id="name"
               placeholder="Eg: John Doe"

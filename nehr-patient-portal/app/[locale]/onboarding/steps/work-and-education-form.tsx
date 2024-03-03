@@ -1,13 +1,12 @@
 "use client";
 
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronRight } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useGlobalStore } from "@/lib/store";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   occupation: z.string(),
@@ -15,8 +14,9 @@ const formSchema = z.object({
 });
 
 export const WorkAndEducationForm = () => {
-  const router = useRouter();
-  const { onboardingFormData, setOnboardingFormData } = useGlobalStore();
+  const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
+    useGlobalStore();
+
   const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -27,7 +27,7 @@ export const WorkAndEducationForm = () => {
       ...values,
     });
 
-    router.push("?step=6");
+    setOnboardingStep(6);
   };
 
   return (
@@ -41,6 +41,7 @@ export const WorkAndEducationForm = () => {
             Occupation
           </label>
           <Input
+            autoFocus
             type="text"
             id="occupation"
             placeholder="Eg: John Doe"

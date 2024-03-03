@@ -1,7 +1,6 @@
 "use client";
 
 import { Grid } from "./grid";
-import { PageParams } from "@/lib/types";
 import { Stepper } from "@/components/stepper";
 import { PHNForm } from "./steps/phn-form";
 import { DemographicsForm } from "./steps/demographics-form";
@@ -12,12 +11,9 @@ import { EmergencyContactForm } from "./steps/emergency-contact-form";
 import { PHNCard } from "./steps/phn-card";
 import { useGlobalStore } from "@/lib/store";
 
-export default function OnboardingPage({ searchParams }: PageParams) {
-  if (!searchParams.step) throw new Error("Missing step param in URL");
-  if (Array.isArray(searchParams.step)) throw new Error("Mutiple steps in URL");
-  const isLastStep = searchParams.step === "7";
-
-  const formData = useGlobalStore((s) => s.onboardingFormData);
+export default function OnboardingPage() {
+  const { onboardingStep, onboardingFormData: formData } = useGlobalStore();
+  const isLastStep = onboardingStep === 7;
 
   return (
     <Grid>
@@ -35,14 +31,14 @@ export default function OnboardingPage({ searchParams }: PageParams) {
           <>
             <Stepper
               stepCount={6}
-              activeStep={Number(searchParams.step)}
+              activeStep={onboardingStep}
               className="mt-10"
             />
             <pre>{JSON.stringify(formData, null, 2)}</pre>
           </>
         )}
       </Grid.Left>
-      <Grid.Right>{steps[searchParams.step as "1"]}</Grid.Right>
+      <Grid.Right>{steps[onboardingStep as 1]}</Grid.Right>
     </Grid>
   );
 }

@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PlusIcon } from "lucide-react";
 import { useGlobalStore } from "@/lib/store";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -14,8 +13,9 @@ const formSchema = z.object({
 });
 
 export const PHNForm = () => {
-  const router = useRouter();
-  const { onboardingFormData, setOnboardingFormData } = useGlobalStore();
+  const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
+    useGlobalStore();
+
   const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -26,7 +26,7 @@ export const PHNForm = () => {
       ...values,
     });
 
-    router.push("?step=2");
+    setOnboardingStep(2);
   };
 
   return (
@@ -39,6 +39,7 @@ export const PHNForm = () => {
           Enter your personal healthcare number if you already have one
         </p>
         <Input
+          autoFocus
           type="text"
           placeholder="Eg: 123456"
           className="mb-4"

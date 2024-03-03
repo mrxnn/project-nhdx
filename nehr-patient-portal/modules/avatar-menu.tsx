@@ -16,7 +16,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { LuUsers } from "react-icons/lu";
 import { signOut } from "next-auth/react";
-import { useTranslation } from "react-i18next";
 
 const PATIENT_HOST =
   "https://728bba0c-9f10-4bb1-833b-7a9ce5dbfac8-dev.e1-eu-north-azure.choreoapis.dev/mlsa/patient/lk-fhir-patient-api-803/v1.0";
@@ -33,7 +32,6 @@ const fetchPatient = async (idToken: string) => {
 };
 
 export const AvatarMenu = () => {
-  const { t } = useTranslation();
   const { data: auth } = useSession();
   const { data, isLoading, isError } = useQuery({
     queryKey: ["patient", auth?.user.idToken],
@@ -52,17 +50,17 @@ export const AvatarMenu = () => {
           {isLoading || isError ? "..." : initials}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" sideOffset={12}>
-          <DropdownMenuLabel>{t("myAccount")}</DropdownMenuLabel>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>{t("settings")}</DropdownMenuItem>
+          <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuItem onSelect={() => signOut()}>
-            {t("signOut")}
+            Sign Out
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <LuUsers strokeWidth={2.5} />
-              <span className="ml-2 mr-8">{t("switchProfile")}</span>
+              <span className="ml-2 mr-8">Switch Profile</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>

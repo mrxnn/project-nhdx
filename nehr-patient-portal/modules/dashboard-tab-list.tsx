@@ -1,5 +1,4 @@
 import { TabsTrigger } from "@/components/ui/tabs";
-import { useTranslation } from "react-i18next";
 
 interface Tab {
   label: string;
@@ -8,27 +7,25 @@ interface Tab {
 }
 
 export const DashboardTabList = () => {
-  const { t } = useTranslation("dashboard");
-
   const tabs: Tab[] = [
     {
-      label: t("recordHome"),
+      label: "Record Home",
       value: "record-home",
     },
     {
-      label: t("myPHNs"),
+      label: "My PHNs",
       value: "my-phns",
     },
     {
-      label: t("myCommunications"),
+      label: "My Communications",
       value: "my-communications",
     },
     {
-      label: t("accessHistory"),
+      label: "Access History",
       value: "access-history",
     },
     {
-      label: t("privacyAndAccess"),
+      label: "Privacy and Access",
       value: "privacy-and-access",
     },
   ];

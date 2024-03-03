@@ -1,6 +1,6 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import { NextAuthProvider } from "@/contexts/auth-provider";
 import { ReactQueryProvider } from "@/contexts/react-query-provider";
 

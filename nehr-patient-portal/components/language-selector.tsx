@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import {
   Select,
   SelectContent,
@@ -11,47 +10,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useTranslation } from "react-i18next";
-import { usePathname, useRouter } from "next/navigation";
-import i18nConfig from "@/i18nConfig";
 
 export const LanguageSelector = () => {
-  const { i18n } = useTranslation();
-  const currentLocale = i18n.language;
-  const router = useRouter();
-  const currentPathname = usePathname();
-  const { t } = useTranslation();
-
-  const handleChange = (newLocale: string) => {
-    const days = 30;
-    const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    const expires = "; expires=" + date.toUTCString();
-    document.cookie = `NEXT_LOCALE=${newLocale};expires=${expires};path=/`;
-
-    if (currentLocale === i18nConfig.defaultLocale) {
-      router.push("/" + newLocale + currentPathname);
-    } else {
-      router.push(
-        currentPathname.replace(`/${currentLocale}`, `/${newLocale}`)
-      );
-    }
-
-    router.refresh();
-  };
+  const handleChange = (newLocale: string) => {};
 
   return (
-    <Select
-      defaultValue="en"
-      onValueChange={handleChange}
-      value={currentLocale}
-    >
+    <Select defaultValue="en" onValueChange={handleChange} value="en">
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select a Language" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel> {t("language")}</SelectLabel>
+          <SelectLabel>Language</SelectLabel>
           <SelectItem value="si">සිංහල</SelectItem>
           <SelectItem value="en">English</SelectItem>
           <SelectItem value="ta">தமிழ்</SelectItem>

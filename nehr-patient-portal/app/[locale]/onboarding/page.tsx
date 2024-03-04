@@ -1,6 +1,5 @@
 "use client";
 
-import { Grid } from "./grid";
 import { Stepper } from "@/components/stepper";
 import { PHNForm } from "./steps/phn-form";
 import { DemographicsForm } from "./steps/demographics-form";
@@ -9,36 +8,32 @@ import { ContactDetailsForm } from "./steps/contact-details-form";
 import { WorkAndEducationForm } from "./steps/work-and-education-form";
 import { EmergencyContactForm } from "./steps/emergency-contact-form";
 import { PHNCard } from "./steps/phn-card";
+import { OnboardingLayout } from "@/modules/onboarding-layout";
 import { useGlobalStore } from "@/lib/store";
 import { useScopedI18n } from "@/locales/client";
 
 export default function OnboardingPage() {
-  const { onboardingStep } = useGlobalStore();
-  const isLastStep = onboardingStep === 7;
   const t = useScopedI18n("onboarding");
+  const step = useGlobalStore((s) => s.onboardingStep);
+  const isLastStep = step === Object.keys(steps).length;
 
   return (
-    <Grid>
-      <Grid.Left>
+    <OnboardingLayout>
+      <OnboardingLayout.Left>
         <p className="text-5xl font-bold tracking-tighter">
           {isLastStep ? t("welcome") : t("title")}
         </p>
-        {isLastStep && (
+        {isLastStep ? (
           <p className="text-slate-500 mt-4">
             The National Electronic Health Record (NEHR) is a key enabler for
             Sri Lanka's strategic vision of "One Patient, One Health Record".
           </p>
+        ) : (
+          <Stepper stepCount={6} activeStep={step} className="mt-10" />
         )}
-        {isLastStep || (
-          <Stepper
-            stepCount={6}
-            activeStep={onboardingStep}
-            className="mt-10"
-          />
-        )}
-      </Grid.Left>
-      <Grid.Right>{steps[onboardingStep as 1]}</Grid.Right>
-    </Grid>
+      </OnboardingLayout.Left>
+      <OnboardingLayout.Right>{steps[step as 1]}</OnboardingLayout.Right>
+    </OnboardingLayout>
   );
 }
 

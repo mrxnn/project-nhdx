@@ -32,8 +32,9 @@ const formSchema = z.object({
 type formState = z.infer<typeof formSchema>;
 
 export const EmergencyContactForm = () => {
-  const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
-    useGlobalStore();
+  const onboardingFormData = useGlobalStore((s) => s.onboardingFormData);
+  const setOnboardingFormData = useGlobalStore((s) => s.setOnboardingFormData);
+  const setOnboardingStep = useGlobalStore((s) => s.setOnboardingStep);
   const { register, handleSubmit, control } = useForm<formState>({
     resolver: zodResolver(formSchema),
   });

@@ -1,4 +1,7 @@
+"use client";
+
 import { TabsTrigger } from "@/components/ui/tabs";
+import { useScopedI18n } from "@/locales/client";
 
 interface Tab {
   label: string;
@@ -7,25 +10,27 @@ interface Tab {
 }
 
 export const DashboardTabList = () => {
+  const t = useScopedI18n("dashboard");
+
   const tabs: Tab[] = [
     {
-      label: "Record Home",
+      label: t("recordHome"),
       value: "record-home",
     },
     {
-      label: "My PHNs",
+      label: t("myPHNs"),
       value: "my-phns",
     },
     {
-      label: "My Communications",
+      label: t("myCommunications"),
       value: "my-communications",
     },
     {
-      label: "Access History",
+      label: t("accessHistory"),
       value: "access-history",
     },
     {
-      label: "Privacy and Access",
+      label: t("privacyAndAccess"),
       value: "privacy-and-access",
     },
   ];

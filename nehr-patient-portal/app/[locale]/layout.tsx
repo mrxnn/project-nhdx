@@ -22,7 +22,7 @@ export default async function RootLayout({
   params: { locale: string };
 }) {
   return (
-    <html>
+    <html lang={locale}>
       <body className={inter.className}>
         <div className="min-h-screen">
           <NextAuthProvider>

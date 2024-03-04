@@ -27,7 +27,7 @@ export default {
     goToDashboard: "டாஷ்போர்டுக்கு செல்லவும்",
   },
 
-  Onboarding: {
+  onboarding: {
     title: "நோயாளிகளுக்கான விண்ணப்பத்தை அமைத்தல்",
     welcome: "NEHR க்கு வரவேற்கிறோம்",
   },

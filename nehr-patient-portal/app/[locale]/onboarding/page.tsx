@@ -15,7 +15,7 @@ import { useScopedI18n } from "@/locales/client";
 export default function OnboardingPage() {
   const { onboardingStep } = useGlobalStore();
   const isLastStep = onboardingStep === 7;
-  const t = useScopedI18n("Onboarding");
+  const t = useScopedI18n("onboarding");
 
   return (
     <Grid>

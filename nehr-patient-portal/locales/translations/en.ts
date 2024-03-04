@@ -26,7 +26,7 @@ export default {
     goToDashboard: "Go to Dashboard",
   },
 
-  Onboarding: {
+  onboarding: {
     title: "Setting up the patient portal",
     welcome: "Welcome to NEHR",
   },

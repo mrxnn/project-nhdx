@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactNode } from "react";
 
-export const Grid = (props: { children: ReactNode }) => {
+export const OnboardingLayout = (props: { children: ReactNode }) => {
   const findChild = useNamedBlocks(props.children);
 
   return (
@@ -16,10 +16,10 @@ export const Grid = (props: { children: ReactNode }) => {
   );
 };
 
-export const LeftSlice = ({ children }: { children: ReactNode }) => children;
+const LeftSlice = ({ children }: { children: ReactNode }) => children;
 const RightSlice = ({ children }: { children: ReactNode }) => children;
-Grid.Left = LeftSlice;
-Grid.Right = RightSlice;
+OnboardingLayout.Left = LeftSlice;
+OnboardingLayout.Right = RightSlice;
 
 const useNamedBlocks = function (children: any) {
   const arr = React.Children.toArray(children);

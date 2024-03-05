@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { ChevronRight } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { useGlobalStore } from "@/lib/store";
 import {
   Select,
   SelectContent,
@@ -14,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useOnboardingContext } from "../page";
 
 const formSchema = z.object({
   occupation: z.string().min(2).max(50),
@@ -23,9 +23,8 @@ const formSchema = z.object({
 type formState = z.infer<typeof formSchema>;
 
 export const WorkAndEducationForm = () => {
-  const onboardingFormData = useGlobalStore((s) => s.onboardingFormData);
-  const setOnboardingFormData = useGlobalStore((s) => s.setOnboardingFormData);
-  const setOnboardingStep = useGlobalStore((s) => s.setOnboardingStep);
+  const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
+    useOnboardingContext();
   const { register, handleSubmit, control } = useForm<formState>({
     resolver: zodResolver(formSchema),
   });

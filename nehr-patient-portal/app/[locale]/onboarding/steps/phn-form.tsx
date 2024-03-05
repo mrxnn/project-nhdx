@@ -4,9 +4,9 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PlusIcon } from "lucide-react";
-import { useGlobalStore } from "@/lib/store";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useOnboardingContext } from "../page";
 
 const formSchema = z.object({
   phn: z.string().length(6),
@@ -15,9 +15,8 @@ const formSchema = z.object({
 type formState = z.infer<typeof formSchema>;
 
 export const PHNForm = () => {
-  const onboardingFormData = useGlobalStore((s) => s.onboardingFormData);
-  const setOnboardingFormData = useGlobalStore((s) => s.setOnboardingFormData);
-  const setOnboardingStep = useGlobalStore((s) => s.setOnboardingStep);
+  const { onboardingFormData, setOnboardingFormData, setOnboardingStep } =
+    useOnboardingContext();
   const { register, handleSubmit } = useForm<formState>({
     resolver: zodResolver(formSchema),
   });

@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet";
 import { NavbarLinks } from "@/components/navbar-links";
 import { LanguageSelector } from "@/components/language-selector";
-import { FaBars } from "react-icons/fa";
 import { Separator } from "@/components/ui/separator";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { UserSignOut } from "@/components/user-sign-out";
 import { AvatarMenu } from "@/modules/avatar-menu";
+import { MenuIcon } from "lucide-react";
 
 export const NavBar = () => {
   const { status } = useSession();
@@ -30,7 +30,7 @@ export const NavBar = () => {
           <Sheet>
             <SheetTrigger asChild>
               <Button size="icon" variant="outline">
-                <FaBars />
+                <MenuIcon />
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>

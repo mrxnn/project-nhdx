@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { FacebookIcon, InstagramIcon } from "lucide-react";
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -12,8 +12,7 @@ export const Footer = () => {
     <motion.footer
       initial={{ opacity: 0, y: 5 }}
       animate={{ opacity: 1, y: 0 }}
-      className="sticky top-full bg-slate-900 flex w-full flex-col justify-center pt-8 max-md:pt-0 px-40 pb-8 max-md:px-4 max-md:max-w-full "
-    >
+      className="sticky top-full bg-slate-900 flex w-full flex-col justify-center pt-8 max-md:pt-0 px-40 pb-8 max-md:px-4 max-md:max-w-full ">
       <div className="flex w-full max-w-full items-stretch justify-between gap-5 max-md:flex-wrap">
         <div className="max-md:max-w-full">
           <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
@@ -62,10 +61,10 @@ export const Footer = () => {
           </div>
           <div className="flex justify-start gap-5 mt-9 max-md:justify-center">
             <Link href="#">
-              <FaFacebook color="white" size={24} />
+              <FacebookIcon color="white" size={24} />
             </Link>
             <Link href="#">
-              <FaInstagram color="white" size={24} />
+              <InstagramIcon color="white" size={24} />
             </Link>
           </div>
         </div>

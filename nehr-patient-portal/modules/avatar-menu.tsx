@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { LuUsers } from "react-icons/lu";
 import { signOut } from "next-auth/react";
 import { useScopedI18n } from "@/locales/client";
+import { UsersIcon } from "lucide-react";
 
 const PATIENT_HOST =
   "https://728bba0c-9f10-4bb1-833b-7a9ce5dbfac8-dev.e1-eu-north-azure.choreoapis.dev/mlsa/patient/lk-fhir-patient-api-803/v1.0";
@@ -62,7 +62,7 @@ export const AvatarMenu = () => {
           <DropdownMenuSeparator />
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              <LuUsers strokeWidth={2.5} />
+              <UsersIcon size={18} />
               <span className="ml-2 mr-8">{t("switchProfile")}</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { useScopedI18n } from "@/locales/client";
+import { FacebookIcon, InstagramIcon } from "lucide-react";
 
 export const Footer = () => {
   const t = useScopedI18n("homepage");
@@ -60,10 +60,10 @@ export const Footer = () => {
           </div>
           <div className="flex justify-start gap-5 mt-9 max-md:justify-center">
             <Link href="#">
-              <FaFacebook color="white" size={24} />
+              <FacebookIcon color="white" size={24} />
             </Link>
             <Link href="#">
-              <FaInstagram color="white" size={24} />
+              <InstagramIcon color="white" size={24} />
             </Link>
           </div>
         </div>

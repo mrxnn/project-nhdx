@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PageParams } from "@/lib/types";
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { SettingsIcon } from "lucide-react";
 
 const SectionLink = ({
   children,
@@ -14,6 +15,7 @@ const SectionLink = ({
 }) => {
   return (
     <Link
+      replace
       className={cn(
         "transition-all",
         isActive
@@ -36,7 +38,7 @@ export default function SettingsPage(props: PageParams) {
   return (
     <>
       <div className="flex min-h-screen">
-        <div className="flex-1 bg-slate-900 text-slate-50 flex flex-col justify-center items-end pr-10 gap-y-2">
+        <div className="w-2/5 bg-slate-900 text-slate-50 flex flex-col justify-center items-end pr-8 gap-y-2">
           <SectionLink isActive={section === "my-phn"} href="my-phn">
             My PHN
           </SectionLink>

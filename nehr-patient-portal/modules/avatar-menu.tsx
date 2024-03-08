@@ -17,6 +17,7 @@ import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { useScopedI18n } from "@/locales/client";
 import { UsersIcon } from "lucide-react";
+import Link from "next/link";
 
 const PATIENT_HOST =
   "https://728bba0c-9f10-4bb1-833b-7a9ce5dbfac8-dev.e1-eu-north-azure.choreoapis.dev/mlsa/patient/lk-fhir-patient-api-803/v1.0";
@@ -55,7 +56,9 @@ export const AvatarMenu = () => {
         <DropdownMenuContent align="end" sideOffset={12}>
           <DropdownMenuLabel>{t("myAccount")}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>{t("settings")}</DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/settings?section=my-phn">{t("settings")}</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem onSelect={() => signOut()}>
             {t("signOut")}
           </DropdownMenuItem>

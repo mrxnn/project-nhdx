@@ -12,8 +12,39 @@ import {
   DrawerFooter,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
+import { parseJwt } from "@/lib/utils";
+
+const PATIENT_HOST =
+  "https://728bba0c-9f10-4bb1-833b-7a9ce5dbfac8-dev.e1-eu-north-azure.choreoapis.dev/mlsa/patient/lk-fhir-patient-api-803/v1.0";
+
+const fetchPatientSummary = async (idToken: string, patientId: string) => {
+  const response = await fetch(
+    `${PATIENT_HOST}/fhir/r4/Patient/${patientId}/$summary`,
+    {
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    }
+  );
+
+  const json = await response.json();
+  return json;
+};
 
 export const MedicalHistoryTimeline = () => {
+  const { data: auth } = useSession();
+  const patientId = parseJwt(auth?.user?.idToken)?.patientId;
+  console.log({ patientId });
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["summary", auth?.user.idToken],
+    queryFn: () => fetchPatientSummary(auth?.user.idToken!, patientId),
+  });
+
+  console.log({ data });
+
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: subDays(new Date(), 6),
     to: new Date(),
@@ -95,11 +126,11 @@ export const MedicalHistoryTimeline = () => {
         </div>
 
         <Timeline className="flex-1 lg:ml-20 md:mr-4 lg:mr-8">
-          {data.map((milestone, idx) => (
+          {dummydata.map((milestone, idx) => (
             <Timeline.Milestone
               key={idx}
               milestone={milestone}
-              last={idx === data.length - 1}
+              last={idx === dummydata.length - 1}
             />
           ))}
         </Timeline>
@@ -142,7 +173,7 @@ const encounters = [
   },
 ];
 
-const data: Milestone[] = [
+const dummydata: Milestone[] = [
   {
     id: "1234",
     institution: "Sri Jayawardanepura Hospital",

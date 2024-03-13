@@ -1,8 +1,8 @@
 import { DataTable } from "@/components/data-table";
-import { Status, StatusType } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { PlusIcon } from "lucide-react";
+import { FAQ } from "./faq";
 
 export const MyCommunications = () => {
   return (
@@ -15,6 +15,7 @@ export const MyCommunications = () => {
       </div>
       <h1 className="text-xl font-bold mb-5">My Tickets</h1>
       <DataTable columns={columns} data={claims} />
+      <FAQ className="mt-12" />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { Status, StatusType } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { PlusIcon } from "lucide-react";
+import { FAQ } from "./faq";
 
 export const MyPHNs = () => {
   return (
@@ -15,6 +16,7 @@ export const MyPHNs = () => {
       </div>
       <h1 className="text-xl font-bold mb-5">Claim My PHNs</h1>
       <DataTable columns={columns} data={claims} />
+      <FAQ className="mt-12" />
     </div>
   );
 };

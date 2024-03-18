@@ -1,10 +1,13 @@
 import { subDays } from "date-fns";
 import { useState } from "react";
+import { parseJwt } from "@/lib/utils";
 import { DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DateRangePicker } from "@/components/date-range-picker";
 import { Timeline, Milestone } from "@/components/timeline";
+import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
 import {
   Drawer,
   DrawerClose,
@@ -12,43 +15,54 @@ import {
   DrawerFooter,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useSession } from "next-auth/react";
-import { useQuery } from "@tanstack/react-query";
-import { parseJwt } from "@/lib/utils";
 
-const PATIENT_HOST =
-  "https://728bba0c-9f10-4bb1-833b-7a9ce5dbfac8-dev.e1-eu-north-azure.choreoapis.dev/mlsa/patient/lk-fhir-patient-api-803/v1.0";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const fetchPatientSummary = async (idToken: string, patientId: string) => {
-  const response = await fetch(
-    `${PATIENT_HOST}/fhir/r4/Patient/${patientId}/$summary`,
-    {
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-      },
-    }
-  );
+  let response;
+  response = await fetch(`${BASE_URL}/fhir/r4/Encounter?patient=${patientId}`, {
+    headers: {
+      Authorization: `Bearer ${idToken}`,
+    },
+  });
 
   const json = await response.json();
   return json;
 };
 
+const extractEncounters = (entries: any[]) => {
+  return entries.map((entry) => {
+    const serviceProvider = entry.resource.serviceProvider.display || "N/A";
+    const encounterType = entry.resource.type[0]?.coding[0]?.display || "N/A";
+    const encounterDuration = `${entry.resource.length.value} ${entry.resource.length.unit}`;
+    const encounteredDate = entry.resource.period
+      ? `${entry.resource.period.start} - ${entry.resource.period.end}`
+      : undefined;
+
+    return {
+      serviceProvider,
+      encounterType,
+      encounterDuration,
+      encounteredDate,
+    };
+  });
+};
+
 export const MedicalHistoryTimeline = () => {
   const { data: auth } = useSession();
   const patientId = parseJwt(auth?.user?.idToken)?.patientId;
-  console.log({ patientId });
-
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["summary", auth?.user.idToken],
+    queryKey: ["encounters", patientId],
     queryFn: () => fetchPatientSummary(auth?.user.idToken!, patientId),
   });
-
-  console.log({ data });
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: subDays(new Date(), 6),
     to: new Date(),
   });
+
+  const encounters = extractEncounters(data?.entry || []);
+  console.log(encounters);
 
   return (
     <>
@@ -71,11 +85,11 @@ export const MedicalHistoryTimeline = () => {
                   <div
                     className="items-center flex space-x-3 py-4 border-b last-of-type:border-b-0"
                     key={idx}>
-                    <Checkbox id={"mb" + encounter.name} />
+                    <Checkbox id={"mb" + encounter.serviceProvider} />
                     <label
-                      htmlFor={"mb" + encounter.name}
+                      htmlFor={"mb" + encounter.serviceProvider}
                       className="text-sm font-medium cursor-pointer leading-none">
-                      {encounter.name}
+                      {encounter.serviceProvider}
                     </label>
                   </div>
                 ))}
@@ -115,22 +129,31 @@ export const MedicalHistoryTimeline = () => {
         <div className="space-y-2.5 hidden lg:block">
           {encounters.map((encounter, idx) => (
             <div className="items-center flex space-x-2 select-none" key={idx}>
-              <Checkbox id={encounter.name} />
+              <Checkbox id={encounter.serviceProvider} />
               <label
-                htmlFor={encounter.name}
+                htmlFor={encounter.serviceProvider}
                 className="text-sm font-medium cursor-pointer leading-none">
-                {encounter.name}
+                {encounter.encounterType}
               </label>
             </div>
           ))}
         </div>
 
         <Timeline className="flex-1 lg:ml-20 md:mr-4 lg:mr-8">
-          {dummydata.map((milestone, idx) => (
+          {[...encounters, ...encounters].map((e, idx) => (
             <Timeline.Milestone
               key={idx}
-              milestone={milestone}
-              last={idx === dummydata.length - 1}
+              milestone={{
+                encounter: {
+                  name: e.encounterType,
+                  color: "#111111",
+                },
+                date: e.encounteredDate ?? "Unknown Date",
+                institution: e.serviceProvider,
+                time: "",
+                id: "1234",
+              }}
+              last={idx === encounters.length * 2 - 1}
             />
           ))}
         </Timeline>

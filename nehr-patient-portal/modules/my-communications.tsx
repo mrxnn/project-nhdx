@@ -30,7 +30,7 @@ export type Ticket = {
 export const columns: ColumnDef<Ticket>[] = [
   {
     accessorKey: "id",
-    header: "Ticket ID",
+    header: "TICKET ID",
     cell: ({ row }) => {
       const id = row.original.id;
       return `#${id}`;

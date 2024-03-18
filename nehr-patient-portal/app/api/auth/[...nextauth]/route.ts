@@ -29,9 +29,54 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  callbacks: {},
+  callbacks: {
+    async session({ session, token }) {
+      if (token) {
+        session.user.idToken = token.idToken;
+        session.user.username = token.username;
+      }
+
+      return session;
+    },
+    async jwt({ token, account, profile, user }) {
+      if (account) {
+        token.accessToken = account.access_token!;
+        token.idToken = account.id_token!;
+      }
+
+      if (profile) {
+        token.username = profile.username!;
+      }
+
+      return token;
+    },
+  },
   debug: true,
 };
 
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    provider: string;
+    idToken: string;
+    accessToken: string;
+    username: string;
+  }
+}
+
+declare module "next-auth" {
+  interface User {
+    idToken?: string;
+    username?: string;
+  }
+
+  interface Profile {
+    username?: string;
+  }
+
+  interface Session {
+    user: User;
+  }
+}

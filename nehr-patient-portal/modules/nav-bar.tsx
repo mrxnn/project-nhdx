@@ -10,20 +10,21 @@ import { Separator } from "@/components/ui/separator";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { UserSignOut } from "@/components/user-sign-out";
+import { AvatarMenu } from "@/modules/avatar-menu";
 
 export const NavBar = () => {
   const { status } = useSession();
 
   return (
     <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }}>
-      <header className="flex h-20 w-full items-center px-40 max-md:px-4">
+      <header className="flex h-20 w-full items-center max-w-6xl mx-auto px-4">
         <Link className="mr-6 flex items-center" href="/">
-          <span className="text-3xl font-black">NEHR</span>
+          <span className="text-3xl font-bold">NEHR</span>
         </Link>
         <div className="hidden md:flex items-center ml-auto gap-6 text-slate-500 text-base">
           <NavbarLinks />
           <LanguageSelector />
-          {status === "authenticated" && <UserSignOut />}
+          {status === "authenticated" && <AvatarMenu />}
         </div>
         <div className="flex md:hidden ml-auto">
           <Sheet>

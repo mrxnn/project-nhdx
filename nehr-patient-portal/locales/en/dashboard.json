@@ -6,7 +6,8 @@
   "recordHome": "Record Home",
   "myProfile": "My Profile",
   "myPHNs": "My PHNs",
-  "mySubmissions": "My Submissions",
+  "myCommunications": "My Communications",
+  "accessHistory": "Access History",
   "privacyAndAccess": "Privacy and Access",
   "personalInformation": "Personal Information",
   "accountInformation": "Account Information",
@@ -18,5 +19,6 @@
   "linkedPHNs": "Linked PHNs",
   "male": "Male",
   "female": "Female",
-  "other": "Other"
+  "other": "Other",
+  "medicalHistory": "Medical History"
 }

@@ -6,7 +6,8 @@
   "recordHome": "ගෙනයාම්",
   "myProfile": "මගේ පැතිකඩ",
   "myPHNs": "මගේ PHN",
-  "mySubmissions": "මගේ ඉදිරිපත් කිරීම්",
+  "myCommunications": "මගේ ඉදිරිපත් කිරීම්",
+  "accessHistory": "ප්රවේශ ඉතිහාසය",
   "privacyAndAccess": "පෞද්ගලිකත්වය සහ ප්රවේශය",
   "personalInformation": "පෞද්ගලික තොරතුරු",
   "accountInformation": "ගිණුම් තොරතුරු",
@@ -18,5 +19,6 @@
   "linkedPHNs": "අදාල PHN",
   "male": "පිරිමි",
   "female": "ගැහැණු",
-  "other": "වෙනත්"
+  "other": "වෙනත්",
+  "medicalHistory": "වෛද්ය ඉතිහාසය"
 }

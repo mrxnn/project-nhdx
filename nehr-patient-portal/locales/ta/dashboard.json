@@ -6,7 +6,8 @@
   "recordHome": "முகப்பு பக்கம்",
   "myProfile": "என் சுயவிவரம்",
   "myPHNs": "என் PHN",
-  "mySubmissions": "என் சமர்ப்பிப்புகள்",
+  "myCommunications": "என் சமர்ப்பிப்புகள்",
+  "accessHistory": "அணுகல் வரலாறு",
   "privacyAndAccess": "தனியுரிமை மற்றும் அணுகல்",
   "personalInformation": "தனிப்பட்ட தகவல்",
   "accountInformation": "கணக்கு தகவல்",
@@ -18,5 +19,6 @@
   "linkedPHNs": "இணைக்கப்பட்ட PHN",
   "male": "ஆண்",
   "female": "பெண்",
-  "other": "மற்றவை"
+  "other": "மற்றவை",
+  "medicalHistory": "மருத்துவ வரலாறு"
 }

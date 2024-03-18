@@ -2,7 +2,7 @@ import Link from "next/link";
 import { PageParams } from "@/lib/types";
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { SettingsIcon } from "lucide-react";
+import { DemographicsForm } from "./sections/demographics";
 
 const SectionLink = ({
   children,
@@ -72,9 +72,21 @@ export default function SettingsPage(props: PageParams) {
           </SectionLink>
         </div>
         <div className="flex-1 flex justify-center items-center">
-          <p>{props.searchParams.section}</p>
+          <div className="w-96">
+            {steps[props.searchParams.section as "demographics"]}
+          </div>
         </div>
       </div>
     </>
   );
 }
+
+const steps = {
+  // 1: <PHNForm />,
+  demographics: <DemographicsForm />,
+  // 3: <IdentifiersForm />,
+  // 4: <ContactDetailsForm />,
+  // 5: <WorkAndEducationForm />,
+  // 6: <EmergencyContactForm />,
+  // 7: <PHNCard />,
+};

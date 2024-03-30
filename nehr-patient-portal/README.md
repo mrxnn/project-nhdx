@@ -3,7 +3,7 @@
 - **Framework**: [Next.js](https://nextjs.org/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Components**: [Shadcn](https://ui.shadcn.com/)
-- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
+- **Async State Management**: [React Query](https://tanstack.com/query/latest)
 - **i18n**: [next-international](https://github.com/QuiiBz/next-international)
 
 ## Running Locally

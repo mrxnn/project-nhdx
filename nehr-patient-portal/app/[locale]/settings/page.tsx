@@ -3,6 +3,11 @@ import { PageParams } from "@/lib/types";
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { DemographicsForm } from "./sections/demographics";
+import { IdentifiersForm } from "./sections/identifiers";
+import { ContactDetailsForm } from "./sections/contact-details-form";
+import { WorkAndEducationForm } from "./sections/work-and-education-form";
+import { EmergencyContactForm } from "./sections/emergency-contact-form";
+import { PHNCard } from "./sections/phn-card";
 
 const SectionLink = ({
   children,
@@ -82,11 +87,11 @@ export default function SettingsPage(props: PageParams) {
 }
 
 const steps = {
-  // 1: <PHNForm />,
+  "my-phn": <PHNCard />,
   demographics: <DemographicsForm />,
-  // 3: <IdentifiersForm />,
-  // 4: <ContactDetailsForm />,
-  // 5: <WorkAndEducationForm />,
-  // 6: <EmergencyContactForm />,
+  identifiers: <IdentifiersForm />,
+  "contact-details": <ContactDetailsForm />,
+  "work-and-education": <WorkAndEducationForm />,
+  "emergency-contact": <EmergencyContactForm />,
   // 7: <PHNCard />,
 };

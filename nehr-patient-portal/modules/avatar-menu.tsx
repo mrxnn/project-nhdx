@@ -42,6 +42,8 @@ export const AvatarMenu = () => {
     queryFn: () => fetchPatient(auth?.user.idToken!, patientId),
   });
 
+  console.log(123, auth);
+
   const name = data?.name?.[0]?.text;
   const firstName = name?.split(" ")?.[0];
   const lastName = name?.split(" ")?.[1];
